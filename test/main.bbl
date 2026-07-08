@@ -1,0 +1,34 @@
+\begin{thebibliography}{1}
+
+\bibitem{texstackexchange}
+TeX Stack~Exchange Community.
+\newblock Latex and tex q\&a forum.
+\newblock Online, 2026.
+\newblock Available at: \url{https://tex.stackexchange.com/}.
+
+\bibitem{dirac1928}
+Paul A.~M. Dirac.
+\newblock The quantum theory of the electron.
+\newblock {\em Proceedings of the Royal Society of London A}, 117(778):610--624, 1928.
+
+\bibitem{griffiths2008electrodynamics}
+David~J. Griffiths.
+\newblock {\em Introduction to Electrodynamics}.
+\newblock Pearson, Upper Saddle River, NJ, 3rd edition, 2008.
+
+\bibitem{hoekstra2020latex}
+J.~Hoekstra and R.~van~der Meer.
+\newblock Latex in modern scientific publishing.
+\newblock In {\em Proceedings of the 15th European Conference on Digital Publishing}, pages 45--53, Amsterdam, The Netherlands, 2020.
+
+\bibitem{jackson1999classical}
+John~David Jackson.
+\newblock {\em Classical Electrodynamics}.
+\newblock John Wiley \& Sons, New York, NY, 3rd edition, 1999.
+
+\bibitem{einstein1905}
+阿尔伯特 爱因斯坦.
+\newblock Über einen die erzeugung und verwandlung des lichtes betreffenden heuristischen gesichtspunkt.
+\newblock {\em Annalen der Physik}, 322(6):132--148, 1905.
+
+\end{thebibliography}

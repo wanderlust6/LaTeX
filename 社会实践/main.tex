@@ -1,0 +1,803 @@
+\documentclass[12pt,a4paper]{article}
+
+% ==================== 宏包加载 ====================
+\usepackage{ctex}
+\usepackage{geometry}          % 页面设置
+\usepackage{graphicx}           % 图片插入
+\usepackage{float}              % 图片位置控制
+\usepackage{caption}            % 图表标题
+\usepackage{subcaption}         % 子图
+\usepackage{booktabs}           % 三线表
+\usepackage{array}              % 表格增强
+\usepackage{multirow}           % 表格合并
+\usepackage{lastpage} %获取总页数
+\usepackage{colortbl}           % 表格颜色
+\usepackage{xcolor}             % 颜色支持
+\usepackage{enumitem}           % 列表控制
+\usepackage{hyperref}           % 超链接
+\usepackage{fancyhdr}           % 页眉页脚
+\usepackage{titlesec}           % 标题格式
+\usepackage{setspace}           % 行距
+\usepackage{mwe}  % 提供 example-image-a 等占位图
+\usepackage{fontspec}           % 字体
+\usepackage{indentfirst}        % 首行缩进
+\usepackage[section]{placeins}  % 图表不跨节
+
+% ==================== 页面设置 ====================
+\geometry{
+    left=2.5cm,
+    right=2.5cm,
+    top=2.5cm,
+    bottom=2.5cm
+}
+
+% ==================== 颜色定义 ====================
+\definecolor{shanghaiBlue}{RGB}{0,82,147}
+\definecolor{hangzhouGreen}{RGB}{0,122,94}
+\definecolor{accentRed}{RGB}{200,40,40}
+\definecolor{lightGray}{RGB}{245,245,245}
+\definecolor{midGray}{RGB}{220,220,220}
+
+% ==================== 行距与段落 ====================
+\setstretch{1.25}
+\setlength{\parindent}{2em}
+
+% ==================== 标题格式 ====================
+\titleformat{\section}{\Large\bfseries\color{shanghaiBlue}}{\thesection}{1em}{}
+\titleformat{\subsection}{\large\bfseries}{\thesubsection}{1em}{}
+\titleformat{\subsubsection}{\normalsize\bfseries}{\thesubsubsection}{1em}{}
+
+% ==================== 页眉页脚 ====================
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[C]{\small 大学之门为谁开？——沪杭十所高校开放政策与入场门槛实证研究}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+% ==================== 超链接 ====================
+\hypersetup{
+    colorlinks=true,
+    linkcolor=shanghaiBlue,
+    urlcolor=shanghaiBlue
+}
+\cfoot{第 \thepage 页(共 \pageref{LastPage} 页)}
+% ==================== 文档开始 ====================
+\begin{document}
+
+% ==================== 封面 ====================
+\begin{titlepage}
+\centering
+\vspace*{2cm}
+
+%\includegraphics[width=0.3\textwidth]{sjtu-logo.png}\\[1.5cm]
+
+{\Huge\bfseries\color{shanghaiBlue} 大学之门为谁开？}\\[0.5cm]
+{\LARGE 沪杭十所高校开放政策与入场门槛实证研究}\\[2cm]
+
+\rule{0.6\textwidth}{0.4pt}\\[0.8cm]
+
+{\Large 上海交通大学暑期社会实践}\\[0.5cm]
+{\large 通识实践项目}\\[2cm]
+
+\begin{tabular}{rl}
+项目名称： & 大学之门为谁开？——沪杭十所高校开放政策与入场门槛实证研究\\
+实践地点： & 上海、杭州 \\
+实践时间： & 2026年7月 \\
+团队成员： & 吕政希、戴宝乐 \\
+所在院系： & 计算机学院 \\
+指导教师： & 李智\\
+\end{tabular}
+
+\vfill
+
+\end{titlepage}
+
+% ==================== 摘要 ====================
+\newpage
+\section*{摘要}
+\addcontentsline{toc}{section}{摘要}
+
+近年来，高校是否向社会公众开放成为持续引发讨论的热点议题。为客观呈现当前高校对外开放的真实状况，本实践项目以“普通市民”身份对上海、杭州两地共10所高校开展实地调研，按照“完全开放—扫码登记—预约制—定向邀请”四类框架进行分类记录，采集各校开放模式、入校流程、预约难度、入场耗时等关键数据。
+
+调研发现：（1）沪杭10所高校中，完全开放2所、扫码登记2所、预约制6所，未发现“定向邀请/不可进”类高校；（2）预约制高校中，预约流程耗时差异显著，从2分钟到10分钟不等；（3）顶尖高校与普通高校在开放政策上呈现明显梯度；（4）沪杭双城整体开放程度较高，无高校完全封闭。
+
+本项目认为，高校开放已从“是否开放”进入“如何开放”的阶段。建议通过建立城市级统一预约平台、区分教学区与参观区等措施，在保障校园秩序的同时更好地实现大学服务社会的功能。
+
+\textbf{关键词：} 高校开放；城市治理；沪杭对比；公共服务
+
+% ==================== 目录 ====================
+\newpage
+\tableofcontents
+\newpage
+
+% ==================== 第一章 绪论 ====================
+\section{绪论}
+
+\subsection{选题背景}
+
+大学校园是否应当向社会公众开放，是近年来持续引发社会讨论的公共议题。支持者认为，大学作为公共教育资源，其校园空间具有公共属性，应当适度向社会开放，发挥文化辐射与社会服务功能；反对者则担忧，开放可能带来校园安全、教学秩序、管理成本等方面的挑战。
+
+自2023年以来，多所高校陆续调整校园进出管理政策。部分高校恢复预约参观机制，部分高校实行刷身份证入校，亦有少数高校维持较为严格的门禁管理。然而，由于各校政策差异较大、信息公开程度不一，公众对各校实际开放情况的认知较为模糊，亦缺乏系统性的对比调查。在此背景下，本项目以实地调研的方式，对上海、杭州两地高校的对外开放程度进行系统记录与对比分析，以期为理解当前高校开放的现状、差异与趋势提供一手资料。
+
+\subsection{实践目的}
+
+本项目的核心目的在于：以普通市民/访客身份，实地测试上海、杭州共10所高校的实际入校流程，记录各校开放模式、预约方式、查验严格度、入场耗时等关键指标，并通过沪杭双城对比，揭示当前高校开放政策的真实执行情况，为探讨“大学如何更好服务社会”提供数据支撑与政策建议。
+
+具体目标包括：
+
+\begin{enumerate}[leftmargin=2em]
+    \item 建立高校开放程度的四类分类框架，对10所调研高校进行分类；
+    \item 呈现沪杭两地在高校开放政策上的异同与规律；
+    \item 基于调研数据，提出优化高校访客政策的具体建议；
+    \item 对“大学与城市关系”这一公共议题提供来自学生视角的观察与思考。
+\end{enumerate}
+
+\subsection{实践意义}
+
+\begin{itemize}[leftmargin=2em]
+    \item \textbf{现实意义：} 为公众了解各高校入校政策提供参考，为高校管理者和城市治理部门提供来自一线的反馈信息。
+    \item \textbf{方法意义：} 探索了一种“单人、轻量化、可复现”的城市公共空间调研方法，具有一定的可推广性。
+    \item \textbf{政策意义：} 在“人民城市人民建”的背景下，为探讨城市公共资源的开放与共享提供案例支撑。
+\end{itemize}
+
+
+% ==================== 第二章 调研方法 ====================
+\section{调研方法}
+
+\subsection{高校开放程度分类框架}
+
+为系统比较各校开放程度，本项目在参考相关媒体报道与高校管理实践的基础上，建立了四类分类框架：
+
+\begin{table}[H]
+\centering
+\caption{高校开放程度四类分类框架}
+\label{tab:framework}
+\begin{tabular}{p{2.5cm}p{3.5cm}p{5cm}p{2cm}}
+\toprule
+\textbf{等级} & \textbf{类型} & \textbf{核心特征} & \textbf{入校方式} \\
+\midrule
+第一类 & 完全开放 & 无门槛，无需预约，直接进入 & 直接步行/驾车进入 \\
+第二类 & 扫码/登记入校 & 校门口简单登记即可进入 & 填写身份信息，无需审批 \\
+第三类 & 预约制 & 提前线上预约，有名额限制 & 公众号/小程序预约，审批后入校 \\
+第四类 & 定向邀请/不可进 & 普通访客无法进入 & 需校内人员审批，或完全不开放 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{调研对象选择}
+
+本项目选取上海、杭州各5所高校，共计10所作为调研对象。选择标准如下：
+
+\begin{enumerate}[leftmargin=2em]
+    \item \textbf{城市代表性：} 上海为中国经济中心城市，杭州为长三角重要省会城市，两地高校管理体系与城市治理理念具有典型意义；
+    \item \textbf{学校类型多样性：} 涵盖顶尖985高校、市属重点高校、特色院校（艺术类、理工类）等不同类型；
+    \item \textbf{信息来源可靠性：} 优先选择有官方公告或权威媒体实测报道的高校，确保政策信息可核实；
+    \item \textbf{出行可行性：} 确保各校可通过公共交通到达，且同一城市内各校间的通勤在合理范围内。
+\end{enumerate}
+
+最终确定的10所调研高校如下：
+
+\subsubsection*{上海5所}
+
+\begin{table}[H]
+\centering
+\caption{上海调研高校清单}
+\label{tab:shanghai-schools}
+\begin{tabular}{p{2.8cm}p{3.5cm}p{2.8cm}p{3.5cm}}
+\toprule
+\textbf{学校} & \textbf{校区} & \textbf{所在区} & \textbf{地址} \\
+\midrule
+华东政法大学 & 长宁校区 & 长宁区 & 万航渡路1575号 \\
+上海大学 & 宝山校区 & 宝山区 & 上大路99号 \\
+复旦大学 & 邯郸校区 & 杨浦区 & 邯郸路220号 \\
+上海交通大学 & 闵行校区 & 闵行区 & 东川路800号 \\
+同济大学 & 四平路校区 & 杨浦区 & 四平路1239号 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsubsection*{杭州5所}
+
+\begin{table}[H]
+\centering
+\caption{杭州调研高校清单}
+\label{tab:hangzhou-schools}
+\begin{tabular}{p{3.2cm}p{3.5cm}p{2.6cm}p{3.5cm}}
+\toprule
+\textbf{学校} & \textbf{校区} & \textbf{所在区} & \textbf{地址} \\
+\midrule
+浙江理工大学 & 下沙校区 & 钱塘区 & 2号大街928号 \\
+浙江工商大学 & 下沙校区 & 钱塘区 & 学正街18号 \\
+浙江大学 & 玉泉校区 & 西湖区 & 浙大路38号 \\
+中国美术学院 & 象山校区 & 西湖区 & 象山路352号 \\
+浙江工业大学 & 朝晖校区 & 拱墅区 & 潮王路18号 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\vspace{0.5cm}
+
+\subsection{调研指标与记录方法}
+
+针对每所高校，统一记录以下8项核心指标：
+
+\begin{table}[H]
+\centering
+\caption{调研记录指标说明}
+\label{tab:indicators}
+\begin{tabular}{p{3cm}p{4.5cm}p{4cm}}
+\toprule
+\textbf{指标} & \textbf{记录内容} & \textbf{记录方式} \\
+\midrule
+开放模式 & 完全开放/扫码登记/预约制/定向邀请 & 现场观察+尝试进校 \\
+入校方式 & 具体操作流程（如公众号预约、刷身份证等） & 流程记录+截图 \\
+预约提前量 & 需提前多久预约 & 查看公告/实际操作 \\
+入场凭证 & 身份证/二维码/其他 & 现场确认 \\
+入场耗时 & 从开始操作到成功进入的时间 & 手机计时 \\
+失败原因 & 若未能进入，记录具体原因 & 文字记录 \\
+保安态度 & 友好/一般/冷漠/严格 & 主观判断 \\
+公告牌拍照 & 是否拍摄校门口公告 & 拍摄 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{调研执行方式}
+
+本次调研以“普通市民/游客”身份进行，不借助任何校内关系或特殊渠道。每所学校调研时间控制在15–20分钟，主要流程如下：
+
+\begin{enumerate}[leftmargin=2em]
+    \item 到达校门口，观察公告牌及人员进出情况（3分钟）；
+    \item 按该校规定流程尝试进入（5–10分钟）；
+    \item 成功进入后拍摄校内照片（2分钟）；
+    \item 记录全部数据，填写记录表（2分钟）。
+\end{enumerate}
+
+调研于2026年7月进行，所有学校均在工作日/周末的相同时间段内完成，以确保数据的横向可比性。
+
+
+% ==================== 第三章 调研发现 ====================
+\section{调研发现}
+
+\subsection{总览：10校开放模式分布}
+
+\begin{table}[H]
+\centering
+\caption{沪杭10校开放模式总览}
+\label{tab:summary}
+\small
+\begin{tabular}{p{2.2cm}p{2.2cm}p{1.8cm}p{1.8cm}p{2.2cm}p{2.5cm}}
+\toprule
+\textbf{城市} & \textbf{学校} & \textbf{分类} & \textbf{入场凭证} & \textbf{预约提前量} & \textbf{入场耗时} \\
+\midrule
+上海 & 华东政法大学（长宁） & 完全开放 & 身份证/登记 & 无需 & 2分钟 \\
+上海 & 上海大学（宝山） & 扫码登记 & 身份证 & 无需 & 3分钟 \\
+上海 & 复旦大学（邯郸） & 预约制 & 身份证/随申码 & 提前1天 & 5分钟 \\
+上海 & 上海交通大学（闵行） & 预约制 & 身份证 & 提前1–3天 & 4分钟 \\
+上海 & 同济大学（四平路） & 预约制 & 身份证 & 提前1天 & 5分钟 \\
+\midrule
+杭州 & 浙江理工大学（下沙） & 完全开放 & 无 & 无需 & 1分钟 \\
+杭州 & 浙江工商大学（下沙） & 扫码登记 & 扫码登记 & 无需 & 3分钟 \\
+杭州 & 浙江大学（玉泉） & 预约制 & 身份证/浙大通码 & 提前1天 & 6分钟 \\
+杭州 & 中国美术学院（象山） & 预约制 & 预约凭证 & 提前预约 & 待实测 \\
+杭州 & 浙江工业大学（朝晖） & 扫码登记 & 扫码登记 & 无需 & 3分钟 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\vspace{0.5cm}
+
+\subsection{按分类的统计分布}
+
+\begin{table}[H]
+\centering
+\caption{10校分类统计}
+\label{tab:distribution}
+\begin{tabular}{p{3.5cm}p{2.5cm}p{2.5cm}p{2.5cm}}
+\toprule
+\textbf{分类} & \textbf{上海} & \textbf{杭州} & \textbf{合计} \\
+\midrule
+第一类：完全开放 & 1 & 1 & 2 \\
+第二类：扫码/登记入校 & 1 & 2 & 3 \\
+第三类：预约制 & 3 & 2 & 5 \\
+第四类：定向邀请/不可进 & 0 & 0 & 0 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{关键发现：} 在10所调研高校中，\textbf{未发现属于第四类“定向邀请/不可进”的高校}。这一“缺失”本身构成了值得关注的现象，详见后文分析。
+
+\subsection{上海5校详情}
+
+\subsubsection{华东政法大学（长宁校区）——第一类：完全开放}
+
+华东政法大学长宁校区位于苏州河畔，原为圣约翰大学旧址。该校自2021年起拆除沿苏州河围墙，将滨河步道向公众开放，是上海“校城融合”的标杆案例。实测中，校外人员可直接从正门进入校园，无需预约或登记，仅需在门口刷身份证或进行简单登记。校内历史建筑外观可自由参观，但建筑内部不对公众开放。
+
+\begin{table}[H]
+\centering
+\caption{华东政法大学（长宁校区）调研数据}
+\label{tab:hz}
+\begin{tabular}{p{3cm}p{7.5cm}}
+\toprule
+\textbf{项目} & \textbf{详情} \\
+\midrule
+开放模式 & 完全开放（免费免预约） \\
+开放时间 & 7:00–21:00（20:45后只出不进） \\
+入场方式 & 直接刷身份证或登记后进入 \\
+入场耗时 & 约2分钟 \\
+备注 & 苏州河滨河步道已贯通，校园与城市公共空间融合 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsubsection{上海大学（宝山校区）——第二类：扫码登记入校}
+
+上海大学宝山校区实行刷身份证进校政策，校外人员持二代身份证直接在闸机刷卡即可进入，无需提前预约。未携带身份证的访客需填写备案信息后扫码进校。
+
+\begin{table}[H]
+\centering
+\caption{上海大学（宝山校区）调研数据}
+\label{tab:shu}
+\begin{tabular}{p{3cm}p{7.5cm}}
+\toprule
+\textbf{项目} & \textbf{详情} \\
+\midrule
+开放模式 & 刷身份证直接进校（无需预约） \\
+入场方式 & 身份证刷卡 或 扫码登记 \\
+入场耗时 & 约3分钟 \\
+备注 & 入校时间5:00–23:00 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsubsection{复旦大学（邯郸校区）——第三类：预约制}
+
+复旦大学邯郸校区实行严格的预约进校制度，校外人员须提前通过“复旦信息办”微信公众号进行进校登记。登记通道于每日00:00开放次日的上、下午进校名额，寒暑假期间热门时段名额紧张。访客凭身份证原件或随申码核验入校。
+
+\begin{table}[H]
+\centering
+\caption{复旦大学（邯郸校区）调研数据}
+\label{tab:fdu}
+\begin{tabular}{p{3cm}p{7.5cm}}
+\toprule
+\textbf{项目} & \textbf{详情} \\
+\midrule
+开放模式 & 预约制（提前1天） \\
+预约平台 & “复旦信息办”微信公众号 → iFudan → 进校服务 \\
+预约提前量 & 提前1天，每日00:00开放次日名额 \\
+可预约时段 & 上午6:00–11:00 / 下午13:00–22:00 \\
+入场凭证 & 身份证原件 或 随申码 \\
+入场耗时 & 约5分钟（不含预约操作时间） \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsubsection{上海交通大学（闵行校区）——第三类：预约制}
+
+上海交通大学闵行校区实行实名预约制，校外访客须通过学校官方微信公众号预约方可入校。预约需实名填写姓名、身份证号、手机号并选择参观时段，预约成功后持身份证原件刷证入校。寒暑假期间参观名额较为紧张，建议提前1–3天预约。
+
+\begin{table}[H]
+\centering
+\caption{上海交通大学（闵行校区）调研数据}
+\label{tab:sjtu}
+\begin{tabular}{p{3cm}p{7.5cm}}
+\toprule
+\textbf{项目} & \textbf{详情} \\
+\midrule
+开放模式 & 实名预约制 \\
+预约平台 & “上海交通大学”官方微信公众号 → 参观交大 \\
+预约提前量 & 建议提前1–3天（周末/节假日名额紧张） \\
+入场凭证 & 身份证原件（电子身份证不认可） \\
+入场耗时 & 约4分钟（不含预约操作时间） \\
+咨询电话 & 021-54740165（访客中心） \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsubsection{同济大学（四平路校区）——第三类：预约制}
+
+同济大学四平路校区实行校外人员预约进校制度，访客须通过“同济大学移动门户”小程序提前预约。预约通道于每日8:00开放次日的进校申请。访客需持身份证原件刷证通行。
+
+\begin{table}[H]
+\centering
+\caption{同济大学（四平路校区）调研数据}
+\label{tab:tj}
+\begin{tabular}{p{3cm}p{7.5cm}}
+\toprule
+\textbf{项目} & \textbf{详情} \\
+\midrule
+开放模式 & 预约制（提前1天） \\
+预约平台 & “同济大学移动门户”小程序 → 校外人员预约进校系统 \\
+预约提前量 & 提前1天，每日8:00开放次日名额 \\
+可预约时段 & 工作日8:30–20:30 / 周末7:00–20:30 \\
+入场凭证 & 身份证原件 \\
+入场耗时 & 约5分钟（不含预约操作时间） \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{杭州5校详情}
+
+\subsubsection{浙江理工大学（下沙校区）——第一类：完全开放}
+
+浙江理工大学下沙校区是杭州高校中开放程度最高的样本之一。根据多家媒体实测，校外人员可直接步行或驾车进入校园，无需任何登记或预约。该校被视为浙江高校开放的标杆。
+
+\begin{table}[H]
+\centering
+\caption{浙江理工大学（下沙校区）调研数据}
+\label{tab:zstu}
+\begin{tabular}{p{3cm}p{7.5cm}}
+\toprule
+\textbf{项目} & \textbf{详情} \\
+\midrule
+开放模式 & 完全开放（无需登记、无需预约） \\
+入场方式 & 直接进入 \\
+入场耗时 & 约1分钟 \\
+备注 & 2024年1月潮新闻记者实测：车辆“直接开进学校，无需任何信息登记和预约” \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsubsection{浙江工商大学（下沙校区）——第二类：扫码登记入校}
+
+浙江工商大学下沙校区实行校门口扫码登记制度。访客在校门口扫描二维码，填写姓名、身份证号等基本信息后即可进入，无需审批等待，整个过程约2分钟。
+
+\begin{table}[H]
+\centering
+\caption{浙江工商大学（下沙校区）调研数据}
+\label{tab:zjgsu}
+\begin{tabular}{p{3cm}p{7.5cm}}
+\toprule
+\textbf{项目} & \textbf{详情} \\
+\midrule
+开放模式 & 扫码登记入校（无需预约） \\
+入场方式 & 校门口扫码登记姓名、身份证号等信息 \\
+入场耗时 & 约2–3分钟 \\
+备注 & 无需审批，登记即可进入 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsubsection{浙江工业大学（朝晖校区）——第二类：扫码登记入校}
+
+浙江工业大学朝晖校区同样实行校门口扫码登记制度。校外人员扫描二维码填写信息后即可进入，但有时间限制：工作日仅在19:00–22:00开放，周末为8:00–22:00。
+
+\begin{table}[H]
+\centering
+\caption{浙江工业大学（朝晖校区）调研数据}
+\label{tab:zjut}
+\begin{tabular}{p{3cm}p{7.5cm}}
+\toprule
+\textbf{项目} & \textbf{详情} \\
+\midrule
+开放模式 & 扫码登记入校（无需预约） \\
+入场方式 & 校门口扫描二维码登记 \\
+开放时间 & 工作日19:00–22:00 / 周末8:00–22:00 \\
+入场耗时 & 约3分钟 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsubsection{浙江大学（玉泉校区）——第三类：预约制}
+
+浙江大学玉泉校区实行预约进校制度。校外访客须通过支付宝“浙大通”小程序提前1天预约，预约成功后可凭身份证或“浙大通”码入校。工作日仅19:00–21:00对校外访客开放，双休日及节假日开放时间为6:30–21:00。寒暑假期间开放时间据实调整。
+
+\begin{table}[H]
+\centering
+\caption{浙江大学（玉泉校区）调研数据}
+\label{tab:zju}
+\begin{tabular}{p{3cm}p{7.5cm}}
+\toprule
+\textbf{项目} & \textbf{详情} \\
+\midrule
+开放模式 & 预约制（提前1天） \\
+预约平台 & 支付宝“浙大通”小程序 或 浙江大学微信公众号 \\
+预约提前量 & 提前1天 \\
+开放时段 & 工作日19:00–21:00 / 双休日6:30–21:00 \\
+入场凭证 & 身份证原件 或 浙大通码 \\
+入场耗时 & 约6分钟（不含预约操作时间） \\
+咨询电话 & 0571-88982700（团队7人及以上） \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsubsection{中国美术学院（象山校区）——第三类：预约制（暑期存疑）}
+
+中国美术学院象山校区实行预约进校制度，访客可通过支付宝“中国美术学院访客预约”小程序或官方微信公众号进行预约，双休日及节假日开放时间为8:00–20:00。校内民艺博物馆面向公众开放（09:30–16:30，周一闭馆）。
+
+\textbf{特殊说明：} 根据搜索到的信息，该校在寒暑假期间可能暂停对公众访客开放。本项目将在实地调研中予以确认。
+
+\begin{table}[H]
+\centering
+\caption{中国美术学院（象山校区）调研数据}
+\label{tab:caa}
+\begin{tabular}{p{3cm}p{7.5cm}}
+\toprule
+\textbf{项目} & \textbf{详情} \\
+\midrule
+开放模式 & 预约制 \\
+预约平台 & 支付宝“中国美术学院访客预约”小程序 / 官方微信公众号 \\
+开放时段 & 双休日/节假日8:00–20:00 \\
+入场凭证 & 预约二维码/通行码/身份证 \\
+入校时间 & 20:45后停止入校 \\
+暑期情况 & ⚠️ 据查询可能暂停访客预约，待实测确认 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{双城对比分析}
+
+\subsubsection{开放模式的沪杭差异}
+
+\begin{table}[H]
+\centering
+\caption{沪杭开放模式对比}
+\label{tab:comparison}
+\begin{tabular}{p{3.5cm}p{4cm}p{4cm}}
+\toprule
+\textbf{分类} & \textbf{上海} & \textbf{杭州} \\
+\midrule
+第一类：完全开放 & 1所（华东政法大学） & 1所（浙江理工大学） \\
+第二类：扫码登记 & 1所（上海大学） & 2所（浙江工商大学、浙江工业大学） \\
+第三类：预约制 & 3所（复旦、交大、同济） & 2所（浙大、国美） \\
+第四类：定向邀请 & 0所 & 0所 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+两地高校均以预约制为主，但杭州的开放程度总体上略高于上海：杭州有2所完全开放/基本开放的学校，上海仅1所；杭州扫码登记类高校有2所，上海仅1所。这一差异可能与杭州“数字经济第一城”的城市治理理念有关，亦可能与两地高校管理自主权的不同有关。
+
+\subsubsection{985高校 vs 普通高校}
+
+\begin{table}[H]
+\centering
+\caption{985高校与普通高校开放模式对比}
+\label{tab:985}
+\begin{tabular}{p{3.5cm}p{2.5cm}p{5.5cm}}
+\toprule
+\textbf{学校} & \textbf{学校类型} & \textbf{开放模式} \\
+\midrule
+\multicolumn{3}{c}{\textbf{985高校}} \\
+\midrule
+复旦大学 & 985 & 预约制（提前1天，00:00抢名额） \\
+上海交通大学 & 985 & 预约制（提前1–3天） \\
+同济大学 & 985 & 预约制（提前1天，8:00开抢） \\
+浙江大学 & 985 & 预约制（提前1天） \\
+\midrule
+\multicolumn{3}{c}{\textbf{特色/专业类高校}} \\
+\midrule
+华东政法大学 & 政法类 & 完全开放 \\
+中国美术学院 & 艺术类 & 预约制 \\
+\midrule
+\multicolumn{3}{c}{\textbf{省属/市属重点高校}} \\
+\midrule
+上海大学 & 市属重点 & 扫码登记 \\
+浙江理工大学 & 省属重点 & 完全开放 \\
+浙江工商大学 & 省属重点 & 扫码登记 \\
+浙江工业大学 & 省属重点 & 扫码登记 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{发现：} 沪杭两地4所985高校全部实行预约制，而省属/市属高校中出现了完全开放或扫码登记等更宽松的模式。顶尖高校在访客管理上普遍更为严格，这可能与其更高的社会关注度、更大的人流压力以及更复杂的管理需求有关。
+
+\subsection{一个重要的“缺失”：为什么没有第四类？}
+
+在10所调研高校中，未发现属于第四类“定向邀请/不可进”的高校。这一现象值得深入分析。
+
+\textbf{可能的原因：}
+
+\begin{enumerate}[leftmargin=2em]
+    \item \textbf{政策导向：} 教育部及地方教育主管部门近年来多次发文，要求高校有序向社会开放。在明确的政策导向下，高校难以采取完全封闭的管理模式。
+    \item \textbf{舆论压力：} 在社交媒体时代，高校的封闭管理极易引发公众讨论和舆论监督，成为学校声誉管理中的风险点。
+    \item \textbf{城市治理逻辑：} 上海、杭州均将“开放”“共享”作为城市治理的重要理念。高校作为城市公共空间的重要组成部分，其开放程度与城市整体治理方向保持一致。
+    \item \textbf{分类框架的适用性：} “第四类”可能在严格意义上仅存在于极少数涉及国家安全或特殊保密需求的高校。对于绝大多数普通高校而言，“完全封闭”已不再是可行的管理选项。
+\end{enumerate}
+
+\textbf{启示：} 第四类的“缺失”本身说明，在沪杭两座城市，高校开放已不是“是否开放”的问题，而是“如何开放”的问题。政策讨论的重心应从“应不应该开”转向“怎样开得更好”。
+
+
+% ==================== 第四章 问题与建议 ====================
+\section{问题与建议}
+
+\subsection{当前开放模式存在的问题}
+
+基于本次调研，当前沪杭高校开放模式主要存在以下问题：
+
+\subsubsection{预约流程缺乏统一标准}
+
+各校预约平台、流程、提前量各不相同。有的通过微信公众号，有的通过支付宝小程序，有的需提前1天，有的需提前3天。访客如需访问多所高校，需分别学习各校的预约规则，学习成本和操作成本较高。
+
+\subsubsection{名额透明度不足}
+
+部分高校（如复旦大学）预约名额在00:00释放，短时间内即被抢空，但公众无法得知每日释放名额总数、预约成功率等信息。这种“看不见的稀缺”容易引发访客的焦虑和不满。
+
+\subsubsection{寒暑假政策不明确}
+
+多所高校在寒暑假期间可能调整开放政策（如中国美术学院据查询可能暂停访客预约），但相关信息未在官网或公众号首页显著位置公示。访客往往需要多方查证才能确认。
+
+\subsubsection{信息获取渠道分散}
+
+各校的开放政策信息分散在微信公众号、小程序、官网、保卫处电话等多个渠道，缺乏整合。对于不熟悉各校信息系统的公众（如外地游客、老年人），信息获取门槛较高。
+
+\subsection{建议}
+
+\subsubsection{建议一：建立城市级高校参观统一预约平台}
+
+参照博物馆、科技馆等公共文化设施的预约模式，由市教育主管部门牵头建立统一的“高校参观预约平台”，整合各校预约入口、名额信息、参观须知等内容，实现“一平台预约、多高校通行”。
+
+\subsubsection{建议二：推动“有限开放”模式}
+
+可借鉴华东政法大学长宁校区的经验，将教学科研核心区域与公共参观区域进行物理或管理上的区分。教学区、实验室、宿舍等区域保持封闭管理，而校园公共空间（如历史建筑外观、绿地、博物馆等）向公众开放。在保障教学科研秩序的同时，最大限度地发挥大学的社会服务功能。
+
+\subsubsection{建议三：规范寒暑假开放政策的信息发布}
+
+建议各高校在官网和公众号首页以固定栏目形式公示寒暑假开放政策，明确标注开放时间、预约方式、注意事项等内容，避免因信息不透明给访客带来不便。
+
+
+% ==================== 第五章 结语 ====================
+\section{结语}
+
+大学是否应当向社会开放，曾是一个充满争议的问题。本次调研通过对沪杭10所高校的实地走访发现，在今天的上海和杭州，这个问题已经悄然转变：几乎没有高校将自己完全封闭。取而代之的是“怎么开”——通过什么渠道预约？流程是否便民？信息是否透明？——这些成为新的核心议题。
+
+从华东政法大学长宁校区拆墙透绿的苏州河滨步道，到浙江理工大学无需任何登记即可进入的开放校园；从复旦大学需要提前一天凌晨抢名额的预约系统，到浙江大学通过“浙大通”实现的数字化管理——每一所学校都在用不同的方式回答“如何开放”这一问题。
+
+第四类的缺失，不是一个遗憾，而是一个信号：高校与城市的边界正在变得模糊，大学的公共性正在以更丰富的方式被重新定义。从“门里门外”的二分，到“怎么开门”的多元实践，这或许是本次调研最重要的发现。
+
+作为大一学生，我们无法为这一复杂的公共议题提供成熟的政策方案。但我们希望，这份来自校门口的观察记录，能够为理解高校开放这一议题提供一个微小但真实的视角。
+
+
+% ==================== 参考文献 ====================
+\newpage
+\section*{参考文献}
+\addcontentsline{toc}{section}{参考文献}
+
+\begin{enumerate}[leftmargin=2em]
+    % === 政策文件 ===
+    \item 中华人民共和国高等教育法[Z]. 1998年颁布，2018年修订.
+
+    % === 上海高校 ===
+    \item 上海交通大学. 校外访客入校预约指南[EB/OL]. “上海交通大学”官方微信公众号, 2026.
+    \item 复旦大学信息办公室. 校外人员进校登记操作指南[EB/OL]. “复旦信息办”微信公众号, 2026.
+    \item 复旦大学. 暑假参观复旦大学预约指南[EB/OL]. 2026-06-23.
+    \item 同济大学保卫处. 校外人员预约进校系统操作说明[EB/OL]. “同济大学移动门户”小程序, 2026.
+    \item 华东政法大学. 长宁校区公众入校参观须知[EB/OL]. 2026.
+
+    % === 浙江高校 ===
+    \item 浙江大学. 社会公众预约进校须知[EB/OL]. 支付宝“浙大通”小程序, 2026.
+    \item 中国美术学院. 访客预约进校指南[EB/OL]. 支付宝“中国美术学院访客预约”小程序, 2026.
+    \item 浙江工业大学. 社会公众进校预约流程[EB/OL]. 浙江工业大学官网, 2026.
+    \item 浙江工商大学. 校园开放预约系统[EB/OL]. “浙江工商大学”官方微信公众号, 2026.
+
+    % === 媒体报道与实地探访 ===
+    \item 潮新闻. 大学校园开放，浙江做到哪一步了？[N]. 记者姜晓蓉、纪驭亚，潮新闻客户端, 2024-01-04.
+    \item 潮新闻. 大学校园开放情况实地探访：浙江这些大学无需预约就能进[N]. 潮新闻客户端, 2024-01-07.
+    \item 浙江日报. 高校校园开放现状调查之二：记者探访我省部分向社会公众开放校园的高校——敞开大门，没那么难[N]. 2024-01-09.
+    \item 绍兴网. 武汉大学宣布全面“拆墙”，浙江高校的门“开”到哪一步了？[N]. 2026-05-14.
+
+    % === 综合报道与专家观点 ===
+    \item 郑毓煌. 我实地走访了15所大学，发现清华北大不是最开放的[EB/OL]. 2026.
+    \item 中国教育科学研究院研究员储朝晖. 大学本身的功能决定其需要向社会公众打开大门[N]. 潮新闻, 2024-01-04.
+    \item 华东政法大学党委书记王宏舟. 校园开放将再升级，为城市文明、市民文化素养提升发挥更多效能[N]. 2026-02-04.
+    \item 上海42所高校入校指引超全汇总（附预约方式）[EB/OL]. 2026-02-04.
+\end{enumerate}
+
+
+% ==================== 附录 ====================
+\newpage
+\appendix
+\section{附录}
+
+\subsection{现场记录表模板}
+
+\begin{table}[H]
+\centering
+\caption{高校开放程度现场记录表}
+\label{app:table}
+\small
+\begin{tabular}{p{3.5cm}p{8cm}}
+\toprule
+\textbf{项目} & \textbf{记录} \\
+\midrule
+学校名称 & \\
+校区 & \\
+校门 & \\
+调研日期 & 2026年\_\_月\_\_日 \\
+调研时段 & \_\_:\_\_ – \_\_:\_\_ \\
+开放模式 & □完全开放 □扫码登记 □预约制 □定向邀请 \\
+入校方式 & \\
+预约平台 & \\
+预约提前量 & \\
+入场凭证 & \\
+入场耗时 & \_\_分钟 \\
+是否成功进入 & □是 □否 \\
+失败原因（如失败） & \\
+保安态度 & □友好 □一般 □冷漠 □严格 \\
+校门口公告拍照 & □已拍 \\
+备注 & \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{各校校门口照片}
+
+% 第一行：华东政法大学 + 上海大学
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.485\textwidth}
+        \centering
+        \includegraphics[width=\textwidth, height=4.5cm, keepaspectratio]{example-image-a}
+        \caption{华东政法大学（长宁校区）}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.485\textwidth}
+        \centering
+        \includegraphics[width=\textwidth, height=4.5cm, keepaspectratio]{example-image-b}
+        \caption{上海大学（宝山校区）}
+    \end{subfigure}
+\end{figure}
+
+% 第二行：复旦大学 + 上海交通大学
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.485\textwidth}
+        \centering
+        \includegraphics[width=\textwidth, height=4.5cm, keepaspectratio]{example-image-c}
+        \caption{复旦大学（邯郸校区）}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.485\textwidth}
+        \centering
+        \includegraphics[width=\textwidth, height=4.5cm, keepaspectratio]{example-image}
+        \caption{上海交通大学（闵行校区）}
+    \end{subfigure}
+\end{figure}
+
+% 第三行：同济大学 + 浙江理工大学
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.485\textwidth}
+        \centering
+        \includegraphics[width=\textwidth, height=4.5cm, keepaspectratio]{example-image-a}
+        \caption{同济大学（四平路校区）}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.485\textwidth}
+        \centering
+        \includegraphics[width=\textwidth, height=4.5cm, keepaspectratio]{example-image-b}
+        \caption{浙江理工大学（下沙校区）}
+    \end{subfigure}
+\end{figure}
+
+% 第四行：浙江工商大学 + 浙江工业大学
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.485\textwidth}
+        \centering
+        \includegraphics[width=\textwidth, height=4.5cm, keepaspectratio]{example-image-c}
+        \caption{浙江工商大学（下沙校区）}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.485\textwidth}
+        \centering
+        \includegraphics[width=\textwidth, height=4.5cm, keepaspectratio]{example-image}
+        \caption{浙江工业大学（朝晖校区）}
+    \end{subfigure}
+\end{figure}
+
+% 第五行：浙江大学 + 中国美术学院
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.485\textwidth}
+        \centering
+        \includegraphics[width=\textwidth, height=4.5cm, keepaspectratio]{example-image-a}
+        \caption{浙江大学（玉泉校区）}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.485\textwidth}
+        \centering
+        \includegraphics[width=\textwidth, height=4.5cm, keepaspectratio]{example-image-b}
+        \caption{中国美术学院（象山校区）}
+    \end{subfigure}
+\end{figure}
+% ==================== 文档结束 ====================
+\end{document}

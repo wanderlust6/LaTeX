@@ -1,0 +1,332 @@
+%\documentclass[14pt]{extarticle}%默认A4大小
+\documentclass[draft,14pt]{extarticle}%draft不加载图片，显示图片位置和大小，方便调试，超链接也不生效，url可以跳转,extarticle可以设置8，9，10，11，12，14，17，20pt字体大小，默认10pt，article只能设置10，11，12pt字体大小
+%默认A4大小，宽21cm,595pt,高29.7cm,842pt
+
+%导言区
+%插入宏包 宏包≈一大堆预定义好的 \newcommand 和 \setlength 打包在一起
+\usepackage{ctex}%中文支持
+\usepackage{graphicx}%插入图片
+\usepackage{geometry}%设置页边距
+\usepackage{lipsum}%插入虚拟文本
+\usepackage{float}%浮动体
+\usepackage{caption}%使用caption*需要用这个
+\usepackage{fancyhdr}%页眉页脚
+\usepackage{lastpage}%获取总页数
+\usepackage{booktabs}%插入三线表
+\usepackage{tabularx}%精确控制表格
+\usepackage{enumitem}%列表间距，标号控制
+\usepackage{amsmath,amsfonts,amsthm}%常见数学公式，数学字体，数学环境
+\usepackage{bm}%数学字体加粗
+\usepackage{mathrsfs}%提供数学花体
+\usepackage{url}%正确显示网址，自动处理特殊字符（_、~、# 等），并且自动换行，没有超链接功能
+\usepackage[colorlinks=true, linkcolor=red, citecolor=blue, urlcolor=blue]{hyperref}%文内超链接，必须放在最后，且在\usepackage{url}之后，colorlinks=false（默认），链接周围出现一个彩色边框（框内文字不变色），colorlinks=true	链接文字本身变成彩色，边框消失。linkcolor对应目录条目、\ref{}、\eqref{}、\pageref{}，citecolor对应\cite{}，urlcolor对应\url{}，true表示启用颜色，false表示不启用颜色。
+\usepackage{cleveref}% 自动判断引用类型，通常在所有宏包之后，必须放在hyperref之后
+
+
+%空行不影响
+%设置文章格式
+%导言区
+\geometry{left=2.5cm,right=2.5cm,top=2.5cm,bottom=2.5cm}%此时\textwidth  = 21.0cm - 2.5cm - 2.5cm = 16.0cm  (= 454.5 pt)，\textheight = 29.7cm - 2.5cm - 2.5cm = 24.7cm  (= 702.5 pt)
+\pagestyle{fancy}%自定义页眉页脚
+\fancyhf{}
+\lhead{\LaTeX{}教程}%首页默认不显示页眉
+\chead{七成自由主义}
+\rhead{\today}
+\cfoot{第 \thepage 页(共 \pageref{LastPage} 页)}
+%首页默认封面，不受\fancyhf{}影响
+
+%设置格式
+\setlength{\intextsep}{10pt plus 2pt minus 2pt}   % 决定H模式下浮动体（图片，表格，公式）与文字以及其他浮动体之间的间距，10+-2pt表示浮动体与文字之间的间距可以在8pt到12pt之间变化，
+\setlength{\floatsep}{10pt plus 2pt minus 2pt}     % 两个t/b模式浮动体之间的间距
+\setlength{\textfloatsep}{10pt plus 2pt minus 2pt} % t/b 模式与文字间距
+
+%自定义命令
+\newcommand{\dd}{\mathrm{d}}%定义微分符号,这样打\mathrm{d}就可以直接用\dd代替了
+\newcommand{\pic}[2]{  %含双参，用#1表示第一个参数，#2表示第二个参数，依次类推
+    \begin{figure}[H]
+        \begin{minipage}{0.48\textwidth}
+            \centering
+            \includegraphics[width=0.9\textwidth]{#1}
+            \caption{左侧}
+        \end{minipage}
+        \begin{minipage}{0.48\textwidth}
+            \centering
+            \includegraphics[width=0.9\textwidth]{#2}
+            \caption{右侧}
+        \end{minipage}
+    \end{figure}
+}
+
+%要想打出_和%需要在之前加/转义
+%默认封面局限比较多，并且记录在页码中
+\title{LaTeX学习笔记}
+\author{Wanderlust}
+\date{2026年7月3日}%today表示当前日期
+
+
+%正文区
+\begin{document}
+\maketitle\thispagestyle{fancy}%fancy默认封面的页眉页脚就和正文一样了,plain只有页码数字，empty啥也没有，但也计算在页码中
+\newpage
+%自定义封面，比较自由
+\begin{titlepage} %titlepage环境会自动忽略页眉页脚，且不计入页码
+    \vspace*{1.5cm}%*表示强制留空白，忽略页首和页底的间距
+    \begin{center}%中间的所以内容全部居中
+        \rule{0.8\textwidth}{0.4pt}\\[1.5cm]%宽度，高度
+        {\Huge \textbf{LaTeX学习笔记}} \\[1.2cm]
+        {\Large Wanderlust} \\[0.5cm]
+        {\large 2026年7月3日}\\[1.0cm]
+    \rule{0.8\textwidth}{0.4pt}%横线的宽度，高度
+\end{center}
+\vspace{1.5cm}
+\begin{tabular}{cc}
+    \hspace{2cm} 第一项: & aaaa \\[5pt]
+    \hspace{2cm} 第二项: & bbbb \\[5pt]
+    \hspace{2cm} 第三项: & cccc \\[5pt]
+\end{tabular}
+\end{titlepage}
+
+\newpage%换页符
+\tableofcontents%生成目录,根据section和subsection自动生成
+
+\newpage%换页符
+\section{虚拟文本}
+\lipsum[1-5]%生成1-5段虚拟文本
+你好，LaTeX！%空行表示新段落的开始，否则会接着上一段落继续写，所以可以通过换行让段落分开。
+
+
+\section{正文}
+\subsection{字体设置}
+\textbf{这段文字加粗}
+
+\textit{中文楷体，english word italic}%中文楷体，英文斜体
+
+\underline{这段文字加下划线}
+
+
+
+\subsection{列表}
+\begin{enumerate}%有序列表，自己编号
+    \item \lipsum[1]
+    \item \lipsum[1]
+    \item \lipsum[1]
+\end{enumerate}
+\begin{enumerate}[nosep] %nosep实现每个点之间没有空行，更加紧凑
+    \item \lipsum[1]
+    \item \lipsum[1]
+    \item \lipsum[1]
+\end{enumerate}
+\begin{enumerate}[label=(\arabic*)]%(1)(2)(3)标号
+    \item 第一项
+    \item 第二项
+\end{enumerate}
+\begin{enumerate}[nosep,label=\alph*]%label控制标号方式：\alph*小写abc,\Alph*大写ABC，\roman*i ii iii，\Roman*I II III,如果要让a变为(a),\alph*写成(\alph*)即可
+    \item 第一项
+    \item 第二项
+\end{enumerate}
+\vspace{+3pt}
+\begin{itemize}[nosep]%无序列表，前面是小黑点
+    \item a
+    \item b
+    \item c
+\end{itemize}
+
+
+
+\subsection{插入图片}
+\label{section}
+\begin{figure}[H]%h表示图片放在当前位置，t表示顶部，b表示底部，htbp表示按照这个顺序一个个试,h,t,b只是建议，H是强制，使用前调用float宏包
+    \centering%页面居中
+    \includegraphics[width=0.75\textwidth]{图片/图片1.png}%[]中是图片大小，{}中是文件名称，带上相对路径
+    \caption{示例图片一,相对大小}%图例，自动带上图片编号
+\end{figure}
+\vspace{12pt}%手动控制间距，比如这里控制图片之间的间距为12pt，如果是+-多少，那么则是在原有\intextsep or \floatsep or \textfloatsep 的基础上加减，但是页首和页底会被忽视，用vspace*则是强制留空白
+%cm和pt都能混用，1cm约等于28.45pt
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=12.5cm]{图片/图片2.png}
+    \caption*{示例图片二，绝对大小}%使用caption*需要宏包，这样字标题mwill不会带上图片编号，也不参与编号，也用不了label和引用
+\end{figure}
+%并排放置图片
+\begin{figure}[H]
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=0.9\textwidth]{图片/图片1.png}%这里的textwidth是minipage的宽度，不是页面的宽度
+        \caption{左侧}
+        \label{a}
+    \end{minipage}
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=0.9\textwidth]{图片/图片2.png}
+        \caption{右侧}
+        \label{b}
+    \end{minipage}
+\end{figure}
+\pic{图片/图片1.png}{图片/图片2.png}%分开来传参数
+%\label与\eqref配套使用，表格，图片，公式都能用
+
+\subsection{表格}
+%普通表格
+\begin{table}[H]
+    \centering
+    \setlength{\tabcolsep}{1cm}%设置列间距,放在\begin{table}和\begin{tabular}之间，\tabcolsep是关键参数
+    \begin{tabular}{|c|c|c|}%l表示左对齐，c表示居中，r表示右对齐，|表示竖线，
+    \hline%横线
+    第一列&第二列&第三列 \\%\\表示换行，&分割每一个单元格
+    \hline
+    & &\\
+    \hline
+    \end{tabular}
+    \caption{表格示例}
+    \label{c}
+\end{table}
+%三线表
+\begin{table}[H]
+    \centering
+    \begin{tabular}{cc}
+    \toprule
+    \qquad 物理符号 \qquad\qquad &\qquad 物理意义 \qquad\qquad\\%文字后面要比前面多一个qquad，一般用\setlength，而不是在文字中加空格
+    \midrule
+    I&电流\\
+    B&磁感应强度\\
+    E&电场强度\\ 
+    \bottomrule
+    \end{tabular}
+    \caption{普通三线表}
+    \label{d}
+\end{table}
+\vspace{+25pt}
+%tabularx控制表格宽度，一般适合三线表
+\begin{table}[H]
+    \centering
+    \begin{tabularx}{0.8\textwidth}{Xc>{\centering\arraybackslash}X}%c表示根据内容决定空格宽度，X表示自动拉伸填充剩余宽度，如果多个X平分，并且X是默认最对齐，如果要中间对齐用>{\centering\arraybackslash}X
+    \toprule
+    \midrule %利用多加midrule可以实现双横线分割的效果
+    标号&物理符号&物理意义 \\%注意\\换行不能少
+    \midrule
+    1&I&电流\\
+    2&B&磁感应强度\\
+    3&E&电场强度\\ 
+    \midrule%%虽然说是三线表，其实你想要分几层就用midrule分就行了
+    A&B&C\\
+    \cmidrule{1-2}%利用cmidrule实现只在a-b上划线
+    有线&有线&没线\\
+    \midrule
+    \bottomrule
+    \end{tabularx}
+    \caption*{控制宽度的三线表} %caotion*不带编号
+\end{table}
+
+\subsection{空格代码}
+%空格代码
+一\,二\;三\ 四\quad 五\qquad 六\hspace{5cm}七
+
+\subsection{引用\raisebox{2pt}{+}三种换行方式}
+% 直接打加号会偏下，这是正常的，因为汉字重心偏高，没法完美对齐，如果想要完美对齐，那么就需要自己手动调节了，具体用raisebox，标题中上移2pt，正文中上移1pt。
+
+从第\pageref{section}页的\ref{section}的图\eqref{a}和图\eqref{b}中可以看出，校园很漂亮。\par
+%pageref展示页码，ref为章节打标签，eqref为浮动体打标签
+这是表\eqref{c}。\\
+\indent 这是\cref{d}。%cleveref默认是英文，如果要改中文得用newcommand，不建议。
+
+\Cref{a}展示了数据。%如果是大写的C，那么首字母就是大写，\cref就是全部小写。注意\ref要想打出来需要\verb|text|把它包裹住，||不能嵌套，比如\verb|\verb|text||会不对，需要写成\verb+\verb|text|+
+
+比如\cref{a,b,c,d}，cref可以同时引用多个标签。
+
+参考书籍 \cite{einstein1905} 介绍了 LaTeX 的基本用法。%cite后面是标签
+
+\subsection{超链接}
+访问\url{https://www.latex-project.org/}，注意用pdf编辑器时选择手型工具，不要用编辑，否则超链接不生效。
+
+如果不想要超链接，那么在指令后加上*即可，比如\ref*{section}章在第\pageref*{section}页就不具备超链接功能，当然，如果你url不想要超链接，那么就不要用\url{}，直接写网址就行了。
+
+\section{数学公式}
+\subsection{简单公式}
+%$ $为行内公式，中间不能有中文或中文字符
+已知$a=b$,则$a+c=b+c$。
+
+已知$1+\frac{1}{2}=\frac{3}{2}$ \\[5pt]%\\强制换行，但此时不会有换行的缩进。12pt为一个字的大小，indent表示一个缩进，可以用在段落中间（不建议）
+\indent 已知$\displaystyle 1+\frac{1}{2}=\frac{3}{2}$%加上\dislpaystyle后输出是外显公式，分数会变大
+
+已知$1+\dfrac{1}{2}=\dfrac{3}{2}$%dfrac依赖ams宏包，但是更方便
+
+%外显公式
+已知$a=b$，则
+\begin{equation}%equation公式右侧带个（）
+    a+c=b+c\,.%加个小空格更美观
+    \label{e}
+\end{equation}
+这是公式\eqref{e}
+已知$a=b$，则
+\begin{equation*}%equation*不带标号
+    1+\frac{1}{2}=\frac{3}{2}%外显公式会自动变大
+\end{equation*}
+
+
+
+\subsection{复杂案例}
+\begin{enumerate}
+    \item 基本不等式：$\forall a_1,a_2,\cdots，a_n$，有%\forall任意，_下标，_{}实现下标止一个，如aij，\dot一个点，\dots三个点居下，\cdots三个点居中，\vdots竖向省略号
+    \begin{equation*}
+        \frac{a_1+a_2+\cdots+a_n}{n}\geq\sqrt[n]{a_1a_2\cdots a_n}%geq大于等于，req小于等于，neq不等于，大于号，小于号直接打就行了
+    \end{equation*}
+    当且仅当$a_1=a_2=\cdots=a_n$等号成立。
+    \item vondermonde行列式：
+    \begin{equation*}
+        |\bm{A}|=\begin{vmatrix}%\bm加粗
+        1 & 1&\cdots&1\\
+        a_1&a_2&\cdots&a_n\\
+        a_1^2 &a_2^2 &\cdots &a_n^2\\
+        \vdots &\vdots & &\vdots\\
+        a_1^{n-1} & a_2^{n-1} &\cdots &a_n^{n-1}
+        \end{vmatrix}
+        =\prod_{1\leq j<i\leq n }(a_i-a_j)%\prod累乘，\sum累加，\int积分，_后面跟下面的， ^后面跟上面的
+    \end{equation*}
+    \item 定积分的定义：若$f$是定义在$[a,b]$上的函数，$J$是一个确定的实数，若$\forall \varepsilon >0$，$\exists \delta>0$，使得对$[a,b]$以及任意介电集$\{\xi_i\}$，只要$\|T\|<\delta$，就有
+    \begin{equation*}
+        \left|\sum_{i=1}^nf(\xi_i)\Delta x_i-J\right|<\varepsilon\,.
+        %在||，（），[],{}前加\left或\right，那么就可以让符号大小随内容变化
+    \end{equation*}
+    则称$f$在$[a,b]$上Riemann可积，称$J$是$f$在$[a,b]$上的定积分，记作
+    \begin{equation*}
+        J=\int_a^bf(x)\mathrm{d}x\,.
+    \end{equation*}
+    即
+    \begin{equation*}
+        J=\lim_{\|T\| \to 0}\sum_{i=1}^nf(\xi_i)\Delta x_i=\int _a^bf(x)\mathrm{d}x\,.%\|双竖杠
+    \end{equation*}
+    \item 线性变换的定义：数域$P$上的线性空间$V$上的一个线性变换$\mathscr{A}$ 称为线性变换，如果$\forall\bm\alpha ,\bm\beta \in V,k\in P$，都有
+    \begin{equation*}
+        \mathscr{A}(\bm\alpha+\bm\beta)=\mathscr{A}(\bm\alpha)+\mathscr{A}(\bm\beta),
+        \mathscr{A}(k\bm\alpha)=k\mathscr{A}(\bm\alpha)\,.
+    \end{equation*}
+    %\mathscr数学花体
+    \item 设 $\mathbb{R}^3$中的点$A(1,0,-1)$还有$B(0,-2,1)$，则$\overrightarrow{AB}=%overrightarrow上面右箭头，overleftarrow上面左箭头
+    \begin{pmatrix}
+    -1\\
+    -2\\
+    2
+    \end{pmatrix}$\,.
+    \item 设函数
+    \begin{equation*}
+        f(x)=\begin{cases}
+        x\sin \frac{1}{x} &x\neq 0\,,\\
+        0 &x=0 \,.%&的本质是将一行划分为多个“列”，每一列由下一个&或行尾分隔。
+        \end{cases}
+    \end{equation*}
+    由于 $\displaystyle\lim_{x\to 0}x\sin \frac{1}{x}=0=f(0)$，故$f$在$x=0$处连续，但连续不一定可导，下面证明$f$在$x=0$处\\[5pt]不可导，
+    
+    由于
+    \begin{equation*}
+        \lim_{\Delta x\to 0}\frac{f(0+\Delta x)-f(0)}{\Delta x}=lim_{\Delta x\to 0}\sin\frac{1}{\Delta x}\,.
+    \end{equation*}
+    此极限不存在，故$f^\prime(0)$ 不存在，即$f$在$x=0$处不可导。
+    %\prime对应'
+\end{enumerate}
+
+
+\newpage
+\nocite{*}%假装引用所有的参考文献，否则参考文献中只会出现正文引用过的文献
+\bibliographystyle{plain}
+\bibliography{ref}
+\end{document}
