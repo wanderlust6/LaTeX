@@ -1,5 +1,5 @@
-%\documentclass[14pt]{extarticle}%默认A4大小
-\documentclass[draft,14pt]{extarticle}%draft不加载图片，显示图片位置和大小，方便调试，超链接也不生效，url可以跳转,extarticle可以设置8，9，10，11，12，14，17，20pt字体大小，默认10pt，article只能设置10，11，12pt字体大小
+ \documentclass[14pt]{extarticle}%默认A4大小
+%\documentclass[draft,14pt]{extarticle}%draft不加载图片，显示图片位置和大小，方便调试，超链接也不生效，url可以跳转,extarticle可以设置8，9，10，11，12，14，17，20pt字体大小，默认10pt，article只能设置10，11，12pt字体大小
 %默认A4大小，宽21cm,595pt,高29.7cm,842pt
 
 %导言区
@@ -7,6 +7,8 @@
 \usepackage{ctex}%中文支持
 \usepackage{graphicx}%插入图片
 \usepackage{geometry}%设置页边距
+\usepackage{indentfirst}%实现section下面一段首行缩进，否则默认不缩进
+\usepackage{xcolor} %设置颜色
 \usepackage{lipsum}%插入虚拟文本
 \usepackage{float}%浮动体
 \usepackage{caption}%使用caption*需要用这个
@@ -15,6 +17,7 @@
 \usepackage{booktabs}%插入三线表
 \usepackage{tabularx}%精确控制表格
 \usepackage{enumitem}%列表间距，标号控制
+\usepackage{minted}%插入代码块
 \usepackage{amsmath,amsfonts,amsthm}%常见数学公式，数学字体，数学环境
 \usepackage{bm}%数学字体加粗
 \usepackage{mathrsfs}%提供数学花体
@@ -31,8 +34,8 @@
 \fancyhf{}
 \lhead{\LaTeX{}教程}%首页默认不显示页眉
 \chead{七成自由主义}
-\rhead{\today}
-\cfoot{第 \thepage 页(共 \pageref{LastPage} 页)}
+\rhead{\today}%today表示当前日期
+\cfoot{第 \thepage 页(共 \pageref*{LastPage} 页)}
 %首页默认封面，不受\fancyhf{}影响
 
 %设置格式
@@ -61,7 +64,7 @@
 %默认封面局限比较多，并且记录在页码中
 \title{LaTeX学习笔记}
 \author{Wanderlust}
-\date{2026年7月3日}%today表示当前日期
+\date{2026年7月3日}
 
 
 %正文区
@@ -96,7 +99,7 @@
 
 
 \section{正文}
-\subsection{字体设置}
+\subsection{字体设置}%\subsection{}（以及 \section{}、\chapter{} 等章节标题）后面的第一段，默认没有首行缩进。需要indentfirst宏包来实现首行缩进。
 \textbf{这段文字加粗}
 
 \textit{中文楷体，english word italic}%中文楷体，英文斜体
@@ -184,7 +187,7 @@
 \begin{table}[H]
     \centering
     \begin{tabular}{cc}
-    \toprule
+    \toprule%toprule与bottomrule默认比midrule粗
     \qquad 物理符号 \qquad\qquad &\qquad 物理意义 \qquad\qquad\\%文字后面要比前面多一个qquad，一般用\setlength，而不是在文字中加空格
     \midrule
     I&电流\\
@@ -238,7 +241,30 @@
 \subsection{超链接}
 访问\url{https://www.latex-project.org/}，注意用pdf编辑器时选择手型工具，不要用编辑，否则超链接不生效。
 
+这是超链接的隐式表达\href{https://www.overleaf.com/}{overleaf官网}，点击overleaf官网就可以跳转。%\url{} —— 显示网址本身，\href{}{} —— 显示自定义文字，跳转到网址
+
 如果不想要超链接，那么在指令后加上*即可，比如\ref*{section}章在第\pageref*{section}页就不具备超链接功能，当然，如果你url不想要超链接，那么就不要用\url{}，直接写网址就行了。
+ 
+\subsection{颜色设置}
+\textcolor{red}{这段文字是红色的}，\textcolor{blue}{这段文字是蓝色的}，\textcolor{green}{这段文字是绿色的}。
+
+\colorbox{red}{这段文字是红色背景的}，\colorbox{blue}{这段文字是蓝色背景的}，\colorbox{green}{这段文字是绿色背景的}。
+
+也可以自定义颜色
+
+\definecolor{myred}{RGB}{200,30,30}
+\textcolor{myred}{比如\{R,G,B\}格式 0-255}
+\definecolor{myblue}{HTML}{1E3A8A}
+\textcolor{myblue}{HTML格式	\{\#RRGGBB\} 十六进制}%像#，{}这些特殊符号需要转义
+\definecolor{lightgray}{gray}{0.8}
+\textcolor{lightgray}{灰度格式0-1，0为黑色，1为白色}
+
+\subsection{代码块}
+\begin{minted}{python}
+def hello():
+    print("Hello, LaTeX!")
+    return 0
+\end{minted}
 
 \section{数学公式}
 \subsection{简单公式}
@@ -256,6 +282,7 @@
     a+c=b+c\,.%加个小空格更美观
     \label{e}
 \end{equation}
+
 这是公式\eqref{e}
 已知$a=b$，则
 \begin{equation*}%equation*不带标号
@@ -330,3 +357,4 @@
 \bibliographystyle{plain}
 \bibliography{ref}
 \end{document}
+

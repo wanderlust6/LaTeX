@@ -1,4 +1,5 @@
-\documentclass[12pt,a4paper]{article}
+\documentclass[12pt]{article}
+%\documentclass[12pt,draft]{article}
 
 % ==================== 宏包加载 ====================
 \usepackage{ctex}
@@ -60,21 +61,21 @@
     linkcolor=shanghaiBlue,
     urlcolor=shanghaiBlue
 }
-\cfoot{第 \thepage 页(共 \pageref{LastPage} 页)}
+\cfoot{第 \thepage 页(共 \pageref*{LastPage} 页)}
 % ==================== 文档开始 ====================
 \begin{document}
 
 % ==================== 封面 ====================
 \begin{titlepage}
 \centering
-\vspace*{2cm}
+\vspace*{1cm}
 
 %\includegraphics[width=0.3\textwidth]{sjtu-logo.png}\\[1.5cm]
-
+\rule{0.8\textwidth}{0.4pt}\\[1.5cm]
 {\Huge\bfseries\color{shanghaiBlue} 大学之门为谁开？}\\[0.5cm]
-{\LARGE 沪杭十所高校开放政策与入场门槛实证研究}\\[2cm]
+{\LARGE 沪杭十所高校开放政策与入场门槛实证研究}\\[1.2cm]
 
-\rule{0.6\textwidth}{0.4pt}\\[0.8cm]
+\rule{0.8\textwidth}{0.4pt}\\[0.8cm]
 
 {\Large 上海交通大学暑期社会实践}\\[0.5cm]
 {\large 通识实践项目}\\[2cm]
@@ -152,7 +153,7 @@
 \centering
 \caption{高校开放程度四类分类框架}
 \label{tab:framework}
-\begin{tabular}{p{2.5cm}p{3.5cm}p{5cm}p{2cm}}
+\begin{tabular}{p{2.5cm}p{3.5cm}p{5cm}p{4cm}}
 \toprule
 \textbf{等级} & \textbf{类型} & \textbf{核心特征} & \textbf{入校方式} \\
 \midrule
