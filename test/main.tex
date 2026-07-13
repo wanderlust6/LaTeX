@@ -24,7 +24,7 @@
 \usepackage{amsmath,amsfonts,amsthm}%常见数学公式，数学字体，数学环境
 \usepackage{bm}%数学字体加粗
 \usepackage{mathrsfs}%提供数学花体
-\usepackage{url}%正确显示网址，自动处理特殊字符（_、~、# 等），并且自动换行，没有超链接功能
+\usepackage{url}%正确显示网址，自动处理特殊字符（_、~、# 等），并且自动换行，本身没有超链接功能
 \usepackage[colorlinks=true, linkcolor=red, citecolor=blue, urlcolor=blue]{hyperref}%文内超链接，必须放在最后，且在\usepackage{url}之后，colorlinks=false（默认），链接周围出现一个彩色边框（框内文字不变色），colorlinks=true	链接文字本身变成彩色，边框消失。linkcolor对应目录条目、\ref{}、\eqref{}、\pageref{}，citecolor对应\cite{}，urlcolor对应\url{}，true表示启用颜色，false表示不启用颜色。
 %\usepackage[hidelinks]{hyperref}%hidelinks表示不显示彩色边框，也不改变文字颜色，默认是false，就是啥也没有，不能和上一条同时用
 \usepackage{cleveref}% 自动判断引用类型，通常在所有宏包之后，必须放在hyperref之后
@@ -46,7 +46,7 @@
 %导言区
 \geometry{left=2.5cm,right=2.5cm,top=2.5cm,bottom=2.5cm}%此时\textwidth  = 21.0cm - 2.5cm - 2.5cm = 16.0cm  (= 454.5 pt)，\textheight = 29.7cm - 2.5cm - 2.5cm = 24.7cm  (= 702.5 pt)
 \pagestyle{fancy}%自定义正文页眉页脚
-\fancyhf{}%清空m初始默认页眉页脚
+\fancyhf{}%清空初始默认页眉页脚
 \lhead{\LaTeX{}教程}
 \chead{七成自由主义}
 \rhead{\today}%today表示当前日期
@@ -87,21 +87,21 @@
 \maketitle\thispagestyle{fancy}%fancy默认封面的页眉页脚就和正文一样了,plain只有页码数字，empty啥也没有，但也计算在页码中
 \newpage
 %自定义封面，比较自由
-\begin{titlepage} %titlepage环境会自动忽略页眉页脚，且不计入页码
-    \vspace*{1.5cm}%*表示强制留空白，忽略页首和页底的间距
+\begin{titlepage} %titlepage环境会自动忽略页眉页脚，且不计入页码，自定义封面
+    \vspace*{1.5cm}%*表示强制留空白，忽略页首和页底的间距，vspace表示竖直方向留空白，hspace表示水平方向留空白
     \begin{center}%中间的所以内容全部居中
         \rule{0.8\textwidth}{0.4pt}\\[1.5cm]%宽度，高度
         {\Huge \textbf{LaTeX学习笔记}} \\[1.2cm]
         {\Large Wanderlust} \\[0.5cm]
         {\large 2026年7月3日}\\[1.0cm]
-    \rule{0.8\textwidth}{0.4pt}%横线的宽度，高度
-\end{center}
-\vspace{1.5cm}
-\begin{tabular}{cc}
-    \hspace{2cm} 第一项: & aaaa \\[5pt]
-    \hspace{2cm} 第二项: & bbbb \\[5pt]
-    \hspace{2cm} 第三项: & cccc \\[5pt]
-\end{tabular}
+        \rule{0.8\textwidth}{0.4pt}%横线的宽度，高度
+    \end{center}
+    \vspace{1.5cm}
+    \begin{tabular}{cc}
+        \hspace{2cm} 第一项: & aaaa \\[5pt]
+        \hspace{2cm} 第二项: & bbbb \\[5pt]
+        \hspace{2cm} 第三项: & cccc \\[5pt]
+    \end{tabular}
 \end{titlepage}
 
 \newpage%换页符
@@ -109,7 +109,7 @@
 
 \newpage%换页符
 \section{虚拟文本}
-\lipsum[1-5]%生成1-5段虚拟文本
+\lipsum[1-3]%生成1-3段虚拟文本
 你好，LaTeX！%空行表示新段落的开始，否则会接着上一段落继续写，所以可以通过换行让段落分开。
 
 
@@ -144,7 +144,6 @@
     \item 第一项
     \item 第二项
 \end{enumerate}
-\vspace{+3pt}
 \begin{itemize}[nosep]%无序列表，前面是小黑点
     \item a
     \item b
@@ -165,7 +164,7 @@
 \begin{figure}[H]
     \centering
     \includegraphics[width=12.5cm]{图片/图片2.png}
-    \caption*{示例图片二，绝对大小}%使用caption*需要宏包，这样字标题mwill不会带上图片编号，也不参与编号，也用不了label和引用
+    \caption*{示例图片二，绝对大小}%使用caption*需要宏包，这样标题不会带上图片编号，也不参与编号，但是也用不了label和引用
 \end{figure}
 %并排放置图片
 \begin{figure}[H]
@@ -183,7 +182,7 @@
     \end{minipage}
 \end{figure}
 \pic{图片/图片1.png}{图片/图片2.png}%分开来传参数
-%\label与\eqref配套使用，表格，图片，公式都能用
+
 
 \subsection{表格}
 %普通表格
@@ -260,12 +259,12 @@
 %一般表格不允许跨页显示，如果要跨页，需要longtable
 \begin{longtable}{>{\centering\arraybackslash}p{3cm}p{3cm}p{8cm}}
     % ---------- 第一页的表头 ----------
-    \caption{用户信息表} \\
+    \caption{长表格示例} \\
     \toprule
     编号 & 姓名 & 备注 \\
     \midrule
     \endfirsthead
-    % ---------- 后续页的表头 ----------
+    % ---------- 后页的表头 ----------
     \multicolumn{2}{c}{（续上表）} %2表示合并2列，c表示后面的文字居中，即（续上表）在这2列中居中显示
     &
     \multicolumn{1}{l}{（同样续上表）} \\%这样可以让这3列分成两部分
@@ -273,7 +272,7 @@
     编号 & 姓名 & 备注 \\
     \midrule
     \endhead
-    % ---------- 后续页的表脚 ----------
+    % ---------- 前页的表脚 ----------
     \midrule
     \multicolumn{3}{r}{续表见下页} \\
     \bottomrule
@@ -290,28 +289,13 @@
     6 & 周八 & 这是用户备注信息 \\
     7 & 吴九 & 这是用户备注信息 \\
     8 & 郑十 & 这是用户备注信息 \\
-    9 & 冯一 & 这是用户备注信息 \\
-    10 & 陈二 & 这是用户备注信息 \\
-    11 & 褚三 & 这是用户备注信息 \\
-    12 & 卫四 & 这是用户备注信息 \\
-    13 & 蒋五 & 这是用户备注信息 \\
-    14 & 沈六 & 这是用户备注信息 \\
-    15 & 韩七 & 这是用户备注信息 \\
-    16 & 杨八 & 这是用户备注信息 \\
-    17 & 朱九 & 这是用户备注信息 \\
-    18 & 秦十 & 这是用户备注信息 \\
-    19 & 尤一 & 这是用户备注信息 \\
-    20 & 许二 & 这是用户备注信息 \\
-    21 & 何三 & 这是用户备注信息 \\
-    22 & 吕四 & 这是用户备注信息 \\
-    23 & 施五 & 这是用户备注信息 \\
-    24 & 张六 & 这是用户备注信息 \\
-    25 & 孔七 & 这是用户备注信息 \\
-    26 & 曹八 & 这是用户备注信息 \\
-    27 & 严九 & 这是用户备注信息 \\
-    28 & 华十 & 这是用户备注信息 \\
-    29 & 金十一 & 这是用户备注信息 \\
-    30 & 魏十二 & 这是用户备注信息 \\
+    9 & 冯十一 & 这是用户备注信息 \\
+    10 & 陈十二 & 这是用户备注信息 \\
+    11 & 褚十三 & 这是用户备注信息 \\
+    12 & 卫十四 & 这是用户备注信息 \\
+    13 & 蒋十五 & 这是用户备注信息 \\
+    14 & 沈十六 & 这是用户备注信息 \\
+    15 & 韩十七 & 这是用户备注信息 \\
 \end{longtable}
 
 
@@ -321,7 +305,6 @@
 
 \subsection{引用\raisebox{2pt}{+}三种换行方式}
 % 直接打加号会偏下，这是正常的，因为汉字重心偏高，没法完美对齐，如果想要完美对齐，那么就需要自己手动调节了，具体用raisebox，标题中上移2pt，正文中上移1pt。
-
 从第\pageref{section}页的\ref{section}的图\eqref{a}和图\eqref{b}中可以看出，校园很漂亮。\par
 %pageref展示页码，ref为章节打标签，eqref为浮动体打标签
 这是表\eqref{c}。\\
@@ -370,7 +353,7 @@ int main() {
 %$ $为行内公式，中间不能有中文或中文字符
 已知$a=b$,则$a+c=b+c$。
 
-已知$1+\frac{1}{2}=\frac{3}{2}$ \\[5pt]%\\强制换行，但此时不会有换行的缩进。12pt为一个字的大小，indent表示一个缩进，可以用在段落中间（不建议）
+已知$1+\frac{1}{2}=\frac{3}{2}$ \\[5pt]%\\强制换行，但此时不会缩进。indent表示一个缩进，可以用在段落中间（不建议）
 \indent 已知$\displaystyle 1+\frac{1}{2}=\frac{3}{2}$%加上\dislpaystyle后输出是外显公式，分数会变大
 
 已知$1+\dfrac{1}{2}=\dfrac{3}{2}$%dfrac依赖ams宏包，但是更方便
@@ -392,9 +375,9 @@ int main() {
 
 \subsection{复杂案例}
 \begin{enumerate}
-    \item 基本不等式：$\forall a_1,a_2,\cdots，a_n$，有%\forall任意，_下标，_{}实现下标止一个，如aij，\dot一个点，\dots三个点居下，\cdots三个点居中，\vdots竖向省略号
+    \item 基本不等式：$\forall a_1,a_2,\cdots，a_n$，有%\forall任意，_下标，_{}下标不止一个，如aij，\dot一个点，\dots三个点居下，\cdots三个点居中，\vdots竖向省略号
     \begin{equation*}
-        \frac{a_1+a_2+\cdots+a_n}{n}\geq\sqrt[n]{a_1a_2\cdots a_n}%geq大于等于，req小于等于，neq不等于，大于号，小于号直接打就行了
+        \frac{a_1+a_2+\cdots+a_n}{n}\geq\sqrt[n]{a_1a_2\cdots a_n}%geq大于等于，req小于等于，neq不等于
     \end{equation*}
     当且仅当$a_1=a_2=\cdots=a_n$等号成立。
     \item vondermonde行列式：
