@@ -1,0 +1,457 @@
+\documentclass[12pt]{article}
+
+\usepackage{ctex}
+\usepackage[top=2.5cm, bottom=2.5cm, left=3cm, right=3cm]{geometry}
+\usepackage{titlesec}% 自定义章节标题格式
+\usepackage{amsmath, amssymb, bm}%数学环境
+\usepackage{graphicx}% 插入图片
+\usepackage{float}% 提供 [H] 选项强制固定位置
+\usepackage{booktabs}%三线表
+\usepackage{tabularx}%可变宽表格
+\usepackage{longtable}%跨页表格
+\usepackage{caption}% 自定义图表标题格式
+\usepackage{enumitem}%enumerate, itemize
+\usepackage{xcolor}
+\usepackage{listings}%插入代码块
+\usepackage{tcolorbox}%
+\usepackage[hidelinks]{hyperref}
+
+%宋体与伪加粗
+\setCJKmainfont{SimSun}[AutoFakeBold=true]
+\setCJKfamilyfont{songti}{SimSun}[AutoFakeBold=true]
+
+%间距控制
+\setlength{\abovedisplayskip}{6pt plus 2pt minus 2pt}%公式上方的间距
+\setlength{\belowdisplayskip}{6pt plus 2pt minus 2pt}%公式下方的间距
+\setlength{\abovedisplayshortskip}{4pt plus 1pt minus 1pt}%短行公式上方的间距
+\setlength{\belowdisplayshortskip}{4pt plus 1pt minus 1pt}%短行公式下方的间距
+\setlength{\intextsep}{6pt plus 2pt minus 2pt}%浮动体（图表）与周围文字的距离
+\setlength{\floatsep}{6pt plus 2pt minus 2pt}%浮动体之间的距离
+\setlength{\textfloatsep}{6pt plus 2pt minus 2pt}%浮动体与页面顶部/底部的距离
+\setlength{\arrayrulewidth}{1.0pt}%所有表格的线宽
+\setlength{\LTpre}{0pt}
+\setlength{\LTpost}{0pt}%longtable 上下方的间距不额外增加
+\setlength{\heavyrulewidth}{1.2pt}     % \toprule（顶线）和 \bottomrule（底线）的宽度
+\setlength{\lightrulewidth}{0.6pt}     % \midrule（中线）的宽度
+\setlength{\cmidrulewidth}{0.6pt}    % \cmidrule（部分横线）的宽度，稍细一点看起来更精致
+\renewcommand{\arraystretch}{1.2}  % 表格行间距
+\linespread{1.2}%行距1.2倍，推荐1.2-1.5
+
+%标题格式
+\titleformat{\section}
+  {\centering\zihao{3}\CJKfamily{rm}\bfseries}
+  {\thesection.}{5pt}{}
+\titleformat{\subsection}
+  {\zihao{-4}\CJKfamily{rm}\bfseries}
+  {\thesubsection}{5pt}{}
+\titleformat{\subsubsection}
+  {\zihao{-4}\CJKfamily{rm}\bfseries}
+  {\thesubsubsection}{5pt}{}
+\titlespacing*{\section}{0pt}{4ex plus .2ex}{4ex plus .2ex}%标题与正文的间距
+\titlespacing*{\subsection}{0pt}{2ex plus .2ex}{2ex plus .2ex}%小标题与正文的间距
+
+%列表设置
+\setlist[enumerate]{
+    align=left,                % 编号左对齐
+    labelwidth=1.2em,          % 编号占用的宽度
+    labelsep=0.3em,            % 编号和文字之间的间距
+    leftmargin=1.8em,          % 列表整体的左缩进
+    itemindent=0em,            % 首行不额外缩进
+    font=\bfseries,            %编号加粗
+}
+
+%图表标题设置
+\captionsetup{
+    font = {small, normalfont},%小号字，不加粗
+    labelsep =  quad,%标签与标题之间的间距
+    skip = 5pt%标题与图表之间的间距
+}
+
+\newcommand{\sinfig}[2]{
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.7\textwidth]{#1}
+        \caption{#2}
+        \label{#2}
+    \end{figure}
+}
+\newcommand{\doufig}[4]{  
+    \begin{figure}[H]
+        \begin{minipage}{0.5\textwidth}
+            \centering
+            \includegraphics[width=0.9\textwidth]{#1}
+            \caption{#3}
+            \label{#3}
+        \end{minipage}
+        \begin{minipage}{0.5\textwidth}
+            \centering
+            \includegraphics[width=0.9\textwidth]{#2}
+            \caption{#4}
+            \label{#4}
+        \end{minipage}
+    \end{figure}
+}
+% 定义代码框中代码样式
+\tcbuselibrary{listings, skins, breakable}
+\lstdefinestyle{mylistings}{
+    basicstyle = \fontspec{Consolas}\small,
+    keywordstyle = \color{blue},
+    commentstyle = \color[RGB]{0,128,0},
+    stringstyle = \color[RGB]{163,21,21},
+    showstringspaces = false,
+    % ---------- 新增：行号 ----------
+    numbers = left,                 % 行号显示在左侧
+    numberstyle = \small\color{gray},% 行号字体：极小号灰色
+    stepnumber = 1,                 % 每行都标号
+    numbersep = 8pt,                % 行号与代码的间距
+    % ---------- 新增：自动换行 ----------
+    breaklines = true,              % 自动换行
+    breakatwhitespace = false,      % 不在空格处换行（让换行更紧凑）
+    breakindent = 0pt,              % 换行后不额外缩进
+    postbreak = \space,             % 换行后加一个空格（VSCode 风格）
+}
+
+% 定义一个代码框样式
+\newtcblisting{mycode}[2][]{
+    listing only,%只显示代码
+    listing options={language=#2, basicstyle=\fontspec{Consolas}\small , style=mylistings, },%引用上面的样式
+    colback=gray!5,%代码区背景 5%的灰色
+    boxrule=1pt,%边框宽度，颜色默认黑色，没有圆角
+    left=0.7cm,%得为行号留出空间
+    right=0.25cm,
+    top=0.1cm,
+    bottom=0.1cm,%框内留白
+    title=#1,
+    fonttitle=\small\songti,%标题字体
+    coltitle=black,%标题颜色，不能删
+    colbacktitle=cyan!10, %标题背景颜色，10%青色
+    titlerule=1pt,%标题下方横线粗细
+    toptitle=0.1cm,
+    bottomtitle=0.1cm,%标题上下留白
+    breakable,%可分页   
+    enhanced, 
+    before skip = 0.8cm,    % 代码块与上文之间的距离
+    after skip = 0.8cm,     % 代码块与下文之间的距离（两个代码块之间就是 0.8+0.8=1.6cm）
+}
+
+
+\begin{document}
+%摘要
+\begin{center}
+{\zihao{3}\CJKfamily{rm}\textbf{基于XX模型的XX问题研究}} \\[2ex]
+{\zihao{4}\CJKfamily{rm}\textbf{摘\quad 要}} \\
+\end{center}
+
+本文针对XX问题，建立了基于\textbf{XX方法}的数学模型。首先，对原始数据进行预处理和分析，发现XX规律；然后，基于XX理论建立了XX模型，并设计了XX算法进行求解；最后，对模型进行了灵敏度分析和稳定性检验。结果表明，该模型具有良好的精度和鲁棒性，能够有效解决XX问题，为XX领域提供了新的思路和方法。
+
+\vspace{2ex}%空2行
+\noindent \textbf{关键词： 数学模型；优化算法；灵敏度分析；XX问题}
+
+% 正文
+\newpage
+\section{问题重述}
+\subsection{问题的背景}
+
+随着XX技术的发展，XX问题日益受到关注。传统的XX方法存在XX不足，因此需要引入新的数学工具和方法。
+\subsection{问题的重述}
+\begin{description}
+    \item[问题一]:在XX条件下，如何优化XX参数以达到最佳效果？
+    \item[问题二]:在XX约束下，如何建立一个有效的数学模型来描述XX现象？
+    \item[问题三]:如何对所建立的模型进行验证和误差分析，以确保其可靠性和实用性？
+\end{description}
+\section{问题分析}
+\begin{description}
+    \item[问题一]:发现其核心在于XX参数的优化；
+    \item[问题二]:确定了模型的基本结构和约束条件；
+    \item[问题三]:提出了验证模型的具体方法和误差分析的指标。
+\end{description}
+\section{模型假设}
+
+为了简化问题，本文做出以下假设：
+
+\begin{enumerate}[label=假设\arabic*:,align=left]
+    \item 假设XX条件保持不变；
+    \item 假设XX因素可以忽略不计；
+\end{enumerate}
+
+\section{符号说明}
+
+\begin{longtable}{>{\centering\arraybackslash}p{0.22\textwidth}>{\centering\arraybackslash}p{0.56\textwidth}>{\centering\arraybackslash}p{0.22\textwidth}}
+    \toprule
+    符号 & 含义 & 单位 \\
+    \midrule
+    \endfirsthead
+    % ---------- 后页的表头 ----------
+    \multicolumn{3}{c}{（续上表）} \\
+    \toprule
+    符号 & 含义 & 单位 \\
+    \midrule
+    \endhead
+    % ---------- 前页的表脚 ----------
+    \bottomrule
+    \multicolumn{3}{r}{续表见下页} \\
+    \endfoot
+    % ---------- 最后一页的表脚 ----------
+    \bottomrule
+    \endlastfoot
+    $E$ & 能量 & 焦耳 \\
+    $m$ & 质量 & 千克 \\
+    $c$ & 光速 & 米/秒 \\
+    $x$ & 优化变量 & 无单位 \\
+    $f(x)$ & 目标函数 & 无单位 \\
+\end{longtable}
+\noindent 注:未声明的变量以其在符号出现处的具体说明为准。
+\section{模型的建立和求解}
+\subsection{建模前的准备}
+\subsubsection{实际问题的数学化处理}
+
+\subsubsection{数据的预处理与分析}
+\subsection{问题一的建立与求解}
+\subsubsection{...方程的建立}
+
+根据XX定律，我们可以建立如下方程：
+
+\begin{equation}
+    E = mc^2
+    \label{eq:energy}
+\end{equation}
+
+其中，$E$ 表示能量，$m$ 表示质量，$c$ 表示光速。
+\subsubsection{问题一模型求解}
+本文采用XX算法对上述模型进行求解，算法流程如下：
+
+\begin{enumerate}[label=步骤\arabic*:]
+    \item 初始化参数；
+    \item 迭代更新变量；
+    \item 检查收敛条件；
+    \item 输出最优解。
+\end{enumerate}
+\subsection{问题二的建立与求解}
+\doufig{example-image}{example-image}{左侧图片标签}{右侧图片标签}
+从图\eqref{左侧图片标签}和图\eqref{右侧图片标签}可以看出，模型对参数 $a$ 的变化较为敏感，对参数 $b$ 的变化不敏感。
+\subsubsection{问题二模型建立}
+在模型一的基础上，引入优化变量 $x$，得到如下优化问题：
+
+\begin{equation}
+    \begin{aligned}
+        \min \quad & f(x) = x^2 + 2x + 1 \\
+        \text{s.t.} \quad & x \geq 0
+    \end{aligned}
+    \label{eq:optimization}
+\end{equation}
+\subsubsection{问题二模型求解}
+\section{结果检验与误差分析}
+
+\subsection{问题一结果检验}
+
+
+
+\subsection{问题二结果检验}
+\subsection{对...的分析}
+对关键参数进行灵敏度分析，结果如图\eqref{灵敏度分析结果}所示。
+
+\sinfig{example-image}{灵敏度分析结果}
+
+从图\eqref{灵敏度分析结果}可以看出，模型对参数 $a$ 的变化较为敏感，对参数 $b$ 的变化不敏感。
+
+\section{模型评价}
+
+\noindent\textbf{模型优点}
+\begin{enumerate}[label=(\arabic*)]
+    \item 模型结构清晰，易于理解和实现；
+    \item 算法收敛速度快，计算效率高；
+    \item 结果具有较高的精度和鲁棒性。
+\end{enumerate}
+
+\noindent\textbf{模型缺点}
+\begin{enumerate}[label=(\arabic*)]
+    \item 对数据质量要求较高；
+    \item 在大规模问题上的计算效率有待提升。
+\end{enumerate}
+
+\section{模型推广与改进}
+
+本文针对XX问题，建立了XX数学模型，并设计了XX算法进行求解。实验结果表明，该模型能够有效解决XX问题，具有较高的实用价值。
+
+未来的工作可以从以下几个方面展开：
+
+\begin{enumerate}[label=(\arabic*)]
+    \item 进一步优化算法，提高计算效率；
+    \item 引入更多实际因素，完善模型；
+    \item 探索模型在其他领域的应用。
+\end{enumerate}
+
+
+\section{测试}
+\begin{table}[H]
+    \centering
+    \caption{符号说明表}
+    \label{符号说明表}
+    \begin{tabularx}{0.8\textwidth}{|>{\centering\arraybackslash}X|c|>{\centering\arraybackslash}X|}
+        \hline
+        符号 & 含义 & 单位 \\
+        \hline
+        $E$ & 能量 & 焦耳 \\
+        $m$ & 质量 & 千克 \\
+        $c$ & 光速 & 米/秒 \\
+        $x$ & 优化变量 & 无单位 \\
+        $f(x)$ & 目标函数 & 无单位 \\
+        \hline
+    \end{tabularx}
+\end{table}
+% 测试图片引用
+\noindent\textbf{图片引用测试：} 灵敏度分析结果如图 \eqref{灵敏度分析结果} 所示。图\eqref{左侧图片标签}和图\eqref{右侧图片标签}
+
+% 测试公式引用
+\noindent\textbf{公式引用测试：} 能量方程见公式 (\ref{eq:energy})，优化模型见公式 (\ref{eq:optimization})。
+
+% 测试表格引用
+\noindent\textbf{表格引用测试：} 符号说明见表 \eqref{符号说明表}。
+
+\section*{参考文献}
+\begin{enumerate}[label={[\arabic*]}, nosep]
+    \item 姜启源, 谢金星, 叶俊. 数学模型[M]. 第5版. 北京: 高等教育出版社, 2018.
+    \item 司守奎, 孙兆亮. 数学建模算法与应用[M]. 第2版. 北京: 国防工业出版社, 2015.
+    \item 刘海洋. \LaTeX{}入门[M]. 北京: 电子工业出版社, 2013.
+    \item 全国大学生数学建模竞赛论文格式规范（2026年修订稿）[EB/OL]. \url{http://www.mcm.edu.cn}, 2026.
+    \item 李志林, 王伟. 基于遗传算法的物流配送路径优化研究[J]. 系统工程理论与实践, 2020, 40(5): 1234-1242.
+    \item 张明, 陈红. 时间序列分析在股票价格预测中的应用[J]. 数学的实践与认识, 2019, 49(8): 78-86.
+    \item 王磊, 刘洋, 赵静. 基于BP神经网络的空气质量预测模型[J]. 环境科学学报, 2021, 41(3): 891-899.
+    \item 陈建明. 基于深度学习的图像识别方法研究[D]. 北京: 清华大学, 2022.
+    \item 赵刚. 复杂网络中的社区发现算法研究[D]. 上海: 上海交通大学, 2021.
+\end{enumerate}
+
+\section*{附录A\quad 文件列表}
+\begin{longtable}{>{\centering\arraybackslash}p{0.4\textwidth}>{\centering\arraybackslash}p{0.6\textwidth}}
+    \toprule
+    文件名 & 功能描述 \\
+    \midrule
+    \endfirsthead
+    % ---------- 后页的表头 ----------
+    \multicolumn{2}{c}{（续上表）} \\
+    \toprule
+    文件名 & 功能描述 \\
+    \midrule
+    \endhead
+    % ---------- 前页的表脚 ----------
+    \bottomrule
+    \multicolumn{2}{r}{续表见下页} \\
+    \endfoot
+    % ---------- 最后一页的表脚 ----------
+    \bottomrule
+    \endlastfoot
+    main.tex & LaTeX 主文件 \\
+    fibonacci.m & 斐波那契数列计算函数 \\
+    main.m & MATLAB主程序 \\
+\end{longtable}
+\section*{附录B\quad 程序源码}
+\begin{mycode}[MATLAB 主程序]{Matlab}
+% =============================================
+% 程序名称：斐波那契数列计算与绘图
+% 功能：计算前 n 项斐波那契数列并绘制曲线
+% =============================================
+
+function main()
+    % ---------- 参数设置 ----------
+    n = 20;                     % 计算项数
+    fprintf('开始计算斐波那契数列...fffffffffffffffffffffffffffffffff\n');
+    
+    % ---------- 调用子函数 ----------
+    fib_seq = fibonacci(n);
+    
+    % ---------- 输出结果 ----------
+    for i = 1:n
+        fprintf('第 %d 项：%d\n', i, fib_seq(i));
+    end
+    
+    % ---------- 绘图 ----------
+    figure(1);
+    plot(1:n, fib_seq, 'r-o', 'LineWidth', 2);
+    xlabel('项数 n');
+    ylabel('数值');
+    title('斐波那契数列前 n 项变化曲线');
+    grid on;
+    legend('斐波那契数列');
+    
+    % ---------- 保存结果 ----------
+    save('fibonacci_results.mat', 'fib_seq');
+    disp('计算完成，结果已保存！');
+end
+
+function fib_seq = fibonacci(n)
+    % 斐波那契数列计算子函数
+    % 输入：n（项数）
+    % 输出：fib_seq（长度为 n 的数组）
+    
+    if n <= 0
+        error('n 必须为正整数！');
+    elseif n == 1
+        fib_seq = 1;
+    elseif n == 2
+        fib_seq = [1, 1];
+    else
+        fib_seq = zeros(1, n);
+        fib_seq(1) = 1;
+        fib_seq(2) = 1;
+        for i = 3:n
+            fib_seq(i) = fib_seq(i-1) + fib_seq(i-2);
+        end
+    end
+end
+\end{mycode}
+\begin{mycode}[MATLAB 主程序]{Matlab}
+% =============================================
+% 程序名称：斐波那契数列计算与绘图
+% 功能：计算前 n 项斐波那契数列并绘制曲线
+% =============================================
+
+function main()
+    % ---------- 参数设置 ----------
+    n = 20;                     % 计算项数
+    fprintf('开始计算斐波那契数列...\n');
+    
+    % ---------- 调用子函数 ----------
+    fib_seq = fibonacci(n);
+    
+    % ---------- 输出结果 ----------
+    for i = 1:n
+        fprintf('第 %d 项：%d\n', i, fib_seq(i));
+    end
+    
+    % ---------- 绘图 ----------
+    figure(1);
+    plot(1:n, fib_seq, 'r-o', 'LineWidth', 2);
+    xlabel('项数 n');
+    ylabel('数值');
+    title('斐波那契数列前 n 项变化曲线');
+    grid on;
+    legend('斐波那契数列');
+    
+    % ---------- 保存结果 ----------
+    save('fibonacci_results.mat', 'fib_seq');
+    disp('计算完成，结果已保存！');
+end
+
+function fib_seq = fibonacci(n)
+    % 斐波那契数列计算子函数
+    % 输入：n（项数）
+    % 输出：fib_seq（长度为 n 的数组）
+    
+    if n <= 0
+        error('n 必须为正整数！');
+    elseif n == 1
+        fib_seq = 1;
+    elseif n == 2
+        fib_seq = [1, 1];
+    else
+        fib_seq = zeros(1, n);
+        fib_seq(1) = 1;
+        fib_seq(2) = 1;
+        for i = 3:n
+            fib_seq(i) = fib_seq(i-1) + fib_seq(i-2);
+        end
+    end
+end
+\end{mycode}
+
+\end{document}

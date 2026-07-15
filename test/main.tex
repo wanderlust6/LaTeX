@@ -1,5 +1,5 @@
- \documentclass[14pt]{extarticle}%默认A4大小
-%\documentclass[draft,14pt]{extarticle}%draft不加载图片，显示图片位置和大小，方便调试，超链接也不生效，url可以跳转，代码框不显示，extarticle可以设置8，9，10，11，12，14，17，20pt字体大小，默认10pt，article只能设置10，11，12pt字体大小
+%  \documentclass[14pt]{extarticle}%默认A4大小
+\documentclass[draft,14pt]{extarticle}%draft不加载图片，显示图片位置和大小，方便调试，超链接也不生效，url可以跳转，代码框不显示，extarticle可以设置8，9，10，11，12，14，17，20pt字体大小，默认10pt，article只能设置10，11，12pt字体大小
 %默认A4大小，宽21cm,595pt,高29.7cm,842pt
 
 %导言区
@@ -142,13 +142,21 @@
 \end{enumerate}
 \begin{enumerate}[nosep,label=\alph*]%label控制标号方式：\alph*小写abc,\Alph*大写ABC，\roman*i ii iii，\Roman*I II III,如果要让a变为(a),\alph*写成(\alph*)即可
     \item 第一项
-    \item 第二项
+    \item 第二项%enumerate右对齐
+\end{enumerate}
+\begin{enumerate}[label=\textbf{操作顺序\arabic*}:,align=left]
+    \item aaaa
+    \item bbbb
 \end{enumerate}
 \begin{itemize}[nosep]%无序列表，前面是小黑点
     \item a
     \item b
     \item c
 \end{itemize}
+\begin{description}[nosep]%自定义标号
+    \item[第一项] aaaa
+    \item[第二项] bbbb
+\end{description}
 
 
 
@@ -306,7 +314,7 @@
 \subsection{引用\raisebox{2pt}{+}三种换行方式}
 % 直接打加号会偏下，这是正常的，因为汉字重心偏高，没法完美对齐，如果想要完美对齐，那么就需要自己手动调节了，具体用raisebox，标题中上移2pt，正文中上移1pt。
 从第\pageref{section}页的\ref{section}的图\eqref{a}和图\eqref{b}中可以看出，校园很漂亮。\par
-%pageref展示页码，ref为章节打标签，eqref为浮动体打标签
+%pageref展示页码，eqref会在编号两侧加上括号，而ref不会加括号。
 这是表\eqref{c}。\\
 \indent 这是\cref{d}。%cleveref默认是英文，如果要改中文得用newcommand，不建议。
 

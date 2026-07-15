@@ -1,0 +1,52 @@
+% =============================================
+% 程序名称：斐波那契数列计算与绘图
+% 功能：计算前 n 项斐波那契数列并绘制曲线
+% =============================================
+
+function main()
+    % ---------- 参数设置 ----------
+    n = 20;                     % 计算项数
+    fprintf('开始计算斐波那契数列...\n');
+
+    % ---------- 调用子函数 ----------
+    fib_seq = fibonacci(n);
+
+    % ---------- 输出结果 ----------
+    for i = 1:n
+        fprintf('第 %d 项：%d\n', i, fib_seq(i));
+    end
+
+    % ---------- 绘图 ----------
+    figure(1);
+    plot(1:n, fib_seq, 'r-o', 'LineWidth', 2);
+    xlabel('项数 n');
+    ylabel('数值');
+    title('斐波那契数列前 n 项变化曲线');
+    grid on;
+    legend('斐波那契数列');
+
+    % ---------- 保存结果 ----------
+    save('fibonacci_results.mat', 'fib_seq');
+    disp('计算完成，结果已保存！');
+end
+
+function fib_seq = fibonacci(n)
+    % 斐波那契数列计算子函数
+    % 输入：n（项数）
+    % 输出：fib_seq（长度为 n 的数组）
+
+    if n <= 0
+        error('n 必须为正整数！');
+    elseif n == 1
+        fib_seq = 1;
+    elseif n == 2
+        fib_seq = [1, 1];
+    else
+        fib_seq = zeros(1, n);
+        fib_seq(1) = 1;
+        fib_seq(2) = 1;
+        for i = 3:n
+            fib_seq(i) = fib_seq(i-1) + fib_seq(i-2);
+        end
+    end
+end
