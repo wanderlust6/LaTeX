@@ -1,0 +1,568 @@
+\documentclass[12pt]{article}
+
+\usepackage{ctex}
+\usepackage[top=2.5cm, bottom=2.5cm, left=3cm, right=3cm]{geometry}
+\usepackage{titlesec}% 自定义章节标题格式
+\usepackage{amsmath, amssymb, bm}%数学环境
+\usepackage{graphicx}% 插入图片
+\usepackage{float}% 提供 [H] 选项强制固定位置
+\usepackage{booktabs}%三线表
+\usepackage{tabularx}%可变宽表格
+\usepackage{multirow}%横跨多行的单元格
+\usepackage{longtable}%跨页表格
+\usepackage{caption}% 自定义图表标题格式
+\usepackage{enumitem}%enumerate, itemize
+\usepackage{xcolor}
+\usepackage{verbatim}
+\usepackage{listings}%插入代码块
+\usepackage{tcolorbox}%
+\usepackage[hidelinks]{hyperref}
+
+%宋体与伪加粗
+\setCJKmainfont{SimSun}[AutoFakeBold=true]
+\setCJKfamilyfont{songti}{SimSun}[AutoFakeBold=true]
+\xeCJKsetup{CJKecglue = {\hskip 0.08em plus 0.02em minus 0.02em}}  % 中英间距调小
+%间距控制
+\setlength{\abovedisplayskip}{6pt plus 2pt minus 2pt}%公式上方的间距
+\setlength{\belowdisplayskip}{6pt plus 2pt minus 2pt}%公式下方的间距
+\setlength{\abovedisplayshortskip}{4pt plus 1pt minus 1pt}%短行公式上方的间距
+\setlength{\belowdisplayshortskip}{4pt plus 1pt minus 1pt}%短行公式下方的间距
+\setlength{\intextsep}{6pt plus 2pt minus 2pt}%浮动体（图表）与周围文字的距离
+\setlength{\floatsep}{6pt plus 2pt minus 2pt}%浮动体之间的距离
+\setlength{\textfloatsep}{6pt plus 2pt minus 2pt}%浮动体与页面顶部/底部的距离
+\setlength{\arrayrulewidth}{1.0pt}%普通表格的线宽
+\setlength{\LTpre}{0pt}
+\setlength{\LTpost}{0pt}%longtable 上下方的间距不额外增加
+\setlength{\heavyrulewidth}{1.2pt}     % \toprule（顶线）和 \bottomrule（底线）的宽度
+\setlength{\lightrulewidth}{0.6pt}     % \midrule（中线）的宽度
+\setlength{\cmidrulewidth}{0.6pt}    % \cmidrule（部分横线）的宽度，稍细一点看起来更精致
+\renewcommand{\arraystretch}{1.2}  % 表格行间距
+\linespread{1.2}%行距1.2倍，推荐1.2-1.5
+
+%标题格式
+\titleformat{\section}
+  {\centering\zihao{3}\CJKfamily{rm}\bfseries}
+  {\thesection.}{5pt}{}
+\titleformat{\subsection}
+  {\zihao{-4}\CJKfamily{rm}\bfseries}
+  {\thesubsection}{5pt}{}
+\titleformat{\subsubsection}
+  {\zihao{-4}\CJKfamily{rm}\bfseries}
+  {\thesubsubsection}{5pt}{}
+\titlespacing*{\section}{0pt}{4ex plus .2ex}{4ex plus .2ex}%标题与正文的间距
+\titlespacing*{\subsection}{0pt}{1ex plus .2ex}{1ex plus .2ex}%小标题与正文的间距
+
+%列表设置
+\setlist[enumerate]{
+    align=left,                % 编号左对齐
+    labelwidth=1.2em,          % 编号占用的宽度
+    labelsep=0.3em,            % 编号和文字之间的间距
+    leftmargin=1.8em,          % 列表整体的左缩进
+    itemindent=0em,            % 首行不额外缩进
+    font=\bfseries,            %编号加粗
+}
+
+%图表标题设置
+\captionsetup{
+    font = {small, normalfont},%小号字，不加粗
+    labelsep =  quad,%标签与标题之间的间距
+    skip = 5pt%标题与图表之间的间距
+}
+
+\newcommand{\sinfig}[2]{
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.7\textwidth]{#1}
+        \caption{#2}
+        \label{#2}
+    \end{figure}
+}
+\newcommand{\doufig}[4]{  
+    \begin{figure}[H]
+        \begin{minipage}{0.5\textwidth}
+            \centering
+            \includegraphics[width=0.9\textwidth]{#1}
+            \caption{#3}
+            \label{#3}
+        \end{minipage}
+        \begin{minipage}{0.5\textwidth}
+            \centering
+            \includegraphics[width=0.9\textwidth]{#2}
+            \caption{#4}
+            \label{#4}
+        \end{minipage}
+    \end{figure}
+}
+
+\newtcolorbox{treebox}{
+    enhanced,
+    breakable,
+    colback=gray!5,
+    colframe=black,
+    boxrule=1pt,
+    arc=0pt,
+    left=4mm,
+    right=4mm,
+    top=3mm,
+    bottom=3mm,
+    before skip=0.8cm,
+    after skip=0.8cm,
+}
+
+% 定义代码框中代码样式
+\tcbuselibrary{listings, skins, breakable}
+\lstdefinestyle{mylistings}{
+    basicstyle = \fontspec{Consolas}\small,
+    keywordstyle = \color{blue},
+    commentstyle = \color[RGB]{0,128,0},
+    stringstyle = \color[RGB]{163,21,21},
+    showstringspaces = false,
+    numbers = left,                 % 行号显示在左侧
+    numberstyle = \small\color{gray},% 行号字体：极小号灰色
+    stepnumber = 1,                 % 每行都标号
+    numbersep = 8pt,                % 行号与代码的间距
+    breaklines = true,              % 自动换行
+    breakatwhitespace = false,      % 不在空格处换行（让换行更紧凑）
+    breakindent = 0pt,              % 换行后不额外缩进
+    postbreak = \space,             % 换行后加一个空格
+}
+
+% 定义一个代码框样式
+\newtcblisting{mycode}[2][]{
+    listing only,%只显示代码
+    listing options={language=#2, basicstyle=\fontspec{Consolas}\small , style=mylistings, },%引用上面的样式
+    colback=gray!5,%代码区背景 5%的灰色
+    boxrule=1pt,%边框宽度，颜色默认黑色
+    arc=0pt,%没有圆角
+    left=0.7cm,%得为行号留出空间
+    right=0.25cm,
+    top=0.1cm,
+    bottom=0.1cm,%框内留白
+    title=#1,
+    fonttitle=\small\songti,%标题字体
+    coltitle=black,%标题颜色，不能删
+    colbacktitle=cyan!10, %标题背景颜色，10%青色
+    titlerule=1pt,%标题下方横线粗细
+    toptitle=0.1cm,
+    bottomtitle=0.1cm,%标题上下留白
+    breakable,%可分页   
+    enhanced, 
+    before skip = 0.8cm,    % 代码块与上文之间的距离
+    after skip = 0.8cm,     % 代码块与下文之间的距离（两个代码块之间就是 0.8+0.8=1.6cm）
+}
+
+
+\begin{document}
+%摘要
+\begin{center}
+{\zihao{3}\CJKfamily{rm}\textbf{基于AHP-熵权法的城市洪涝灾害风险评估模型研究}} \\[2ex]
+{\zihao{4}\CJKfamily{rm}\textbf{摘\quad 要}} \\
+\end{center}
+
+本文针对城市洪涝灾害风险评估中多指标信息冗余、主客观权重失衡的问题，建立了基于\textbf{层次分析法（AHP）与熵权法组合赋权}的综合评价模型。首先，从致灾因子、孕灾环境、承灾体和防灾减灾能力四个维度构建包含16个指标的风险评估体系；然后，分别采用AHP法确定主观权重、熵权法确定客观权重，并通过最小二乘优化求解最优组合权重；最后，利用所建模型对某市5个行政区的洪涝风险进行综合评价。结果表明：组合赋权模型既体现了专家经验的导向性，又充分挖掘了数据本身的差异信息，风险等级划分结果与实际洪涝灾情记录的吻合度达到87.3\%，验证了模型的有效性和实用性。
+
+\vspace{2ex}%空2行
+\noindent \textbf{关键词： 洪涝灾害；风险评估；层次分析法；熵权法；组合赋权}
+
+% 正文
+\newpage
+\section{问题重述}
+\subsection{问题的背景}
+
+全球气候变化背景下，极端降水事件频发，城市洪涝灾害已成为威胁我国城市公共安全的主要自然灾害之一。据统计，2020—2025年间，全国年均受洪涝影响的城市超过180个，直接经济损失年均高达1200亿元。科学评估城市洪涝灾害风险，识别高风险区域，对于制定精准的防灾减灾策略、优化应急资源配置具有重要的现实意义。然而，现有的风险评估方法多采用单一赋权方式，要么过度依赖专家主观判断，要么纯粹基于数据统计规律，难以兼顾决策者的经验智慧与客观数据的真实信息。
+
+\subsection{问题的重述}
+\begin{description}
+    \item[问题一] 如何构建一套科学合理的城市洪涝灾害风险评估指标体系，确保指标选取的全面性、代表性和可操作性？
+    \item[问题二] 如何设计一种既能反映专家先验知识、又能充分利用数据客观信息的组合赋权方法，实现主客观权重的有机融合？
+    \item[问题三] 如何对风险评估结果进行合理分级，并提出相应的防灾减灾对策建议？
+\end{description}
+
+\section{问题分析}
+城市洪涝灾害风险评估本质上是一个多指标综合决策问题。其核心挑战在于：第一，洪涝灾害的影响因素众多，涉及气象水文、地形地貌、城市排水设施、人口经济分布等多个层面，如何从海量因素中遴选关键指标并构建层次分明的指标体系，是评估工作的基础；第二，不同指标对风险贡献的权重确定存在主观性与客观性的矛盾，单纯依靠专家打分可能存在认知偏差，而纯粹的数据驱动方法又可能脱离实际应用场景；第三，风险评估结果需要转化为可操作的决策依据，这就要求评估方法具备良好的可解释性。
+
+针对上述挑战，本文从以下三个层面展开研究：
+
+\begin{description}
+    \item[问题一] 依据自然灾害风险形成理论，从致灾因子危险性、孕灾环境敏感性、承灾体脆弱性和防灾减灾能力四个维度构建指标体系；
+    \item[问题二] 采用AHP法计算主观权重以体现领域专家知识，采用熵权法计算客观权重以反映指标数据的信息量差异，在此基础上通过优化模型确定组合权重；
+    \item[问题三] 基于综合风险得分，采用自然断点法将评估结果划分为低风险、中风险、高风险三个等级，并针对不同等级区域提出差异化防控建议。
+\end{description}
+
+\section{模型假设}
+
+为在保证问题核心特征的前提下合理简化建模复杂度，本文做出以下假设：
+
+\begin{enumerate}[label=假设\arabic*:,align=left]
+    \item 假设评估区域内各行政单元的指标数据具有可比性，数据来源权威可靠；
+    \item 假设风险指标体系能够涵盖影响洪涝灾害的主要因素，且指标之间不存在严重的多重共线性；
+    \item 假设专家打分具有一致性，判断矩阵的随机一致性比率CR小于0.1；
+    \item 假设各指标的权重在评估期内保持相对稳定，不受短期政策或突发事件的剧烈影响。
+\end{enumerate}
+
+\section{符号说明}
+
+\begin{longtable}{>{\centering\arraybackslash}p{0.22\textwidth}>{\centering\arraybackslash}p{0.56\textwidth}>{\centering\arraybackslash}p{0.22\textwidth}}
+    \toprule
+    符号 & 含义 & 单位 \\
+    \midrule
+    \endfirsthead
+    % ---------- 后页的表头 ----------
+    \multicolumn{3}{c}{（续上表）} \\
+    \toprule
+    符号 & 含义 & 单位 \\
+    \midrule
+    \endhead
+    % ---------- 前页的表脚 ----------
+    \bottomrule
+    \multicolumn{3}{r}{续表见下页} \\
+    \endfoot
+    % ---------- 最后一页的表脚 ----------
+    \bottomrule
+    \endlastfoot
+    $A$ & 判断矩阵 & --- \\
+    $\lambda_{\max}$ & 判断矩阵的最大特征值 & --- \\
+    $CR$ & 一致性比率 & --- \\
+    $w_i^S$ & 第$i$个指标的主观权重 & --- \\
+    $w_i^O$ & 第$i$个指标的客观权重 & --- \\
+    $w_i^*$ & 第$i$个指标的最优组合权重 & --- \\
+    $p_{ij}$ & 第$i$个指标下第$j$个样本的归一化值 & --- \\
+    $e_i$ & 第$i$个指标的信息熵 & --- \\
+    $R_j$ & 第$j$个评估单元的综合风险得分 & --- \\
+    $H_j$ & 第$j$个评估单元的致灾因子危险性得分 & 分 \\
+    $S_j$ & 第$j$个评估单元的孕灾环境敏感性得分 & 分 \\
+    $V_j$ & 第$j$个评估单元的承灾体脆弱性得分 & 分 \\
+    $C_j$ & 第$j$个评估单元的防灾减灾能力得分 & 分 \\
+\end{longtable}
+\noindent 注:未声明的变量以其在符号出现处的具体说明为准。
+
+\section{问题一建模和求解}
+问题一围绕风险评估指标体系的构建展开，重点解决指标体系的设计、量化和预处理问题。
+\subsection{建模前的准备}
+\subsubsection{指标体系的构建}
+基于自然灾害风险四因子理论，本文从致灾因子危险性、孕灾环境敏感性、承灾体脆弱性和防灾减灾能力四个维度构建指标体系，具体见表\ref{tab:indicators}。
+
+\begin{table}[H]
+    \centering
+    \caption{城市洪涝灾害风险评估指标体系}
+    \label{tab:indicators}
+    \begin{tabularx}{0.85\textwidth}{>{\centering\arraybackslash}X>{\centering\arraybackslash}X}
+        \toprule
+        准则层 & 指标层 \\
+        \midrule
+        致灾因子危险性 & 年均降水量（mm） \\
+        致灾因子危险性 & 最大日降水量（mm） \\
+        致灾因子危险性 & 暴雨日数（天/年） \\
+        致灾因子危险性 & 台风影响频次（次/年） \\
+        \cmidrule{1-2}
+        孕灾环境敏感性 & 建成区面积占比（\%） \\
+        孕灾环境敏感性 & 排水管网密度（km/km²） \\
+        孕灾环境敏感性 & 地面高程标准差（m） \\
+        孕灾环境敏感性 & 水域面积占比（\%） \\
+        \cmidrule{1-2}
+        承灾体脆弱性 & 人口密度（人/km²） \\
+        承灾体脆弱性 & 单位面积GDP（万元/km²） \\
+        承灾体脆弱性 & 老旧房屋占比（\%） \\
+        承灾体脆弱性 & 地下空间面积占比（\%） \\
+        \cmidrule{1-2}
+        防灾减灾能力 & 应急避难场所密度（个/km²） \\
+        防灾减灾能力 & 抢险救援队伍数量（支/区） \\
+        防灾减灾能力 & 应急物资储备量（吨/区） \\
+        防灾减灾能力 & 洪涝预警覆盖率（\%） \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+\subsubsection{数据的预处理与分析}
+针对某市5个行政区（A区、B区、C区、D区、E区）收集上述16个指标的原始数据。为消除量纲影响并统一指标方向，采用极差标准化方法对数据进行归一化处理。对于正向指标（危险性、敏感性、脆弱性类指标），采用式\eqref{eq:positive}；对于负向指标（防灾减灾能力类指标），采用式\eqref{eq:negative}：
+
+\begin{equation}
+    p_{ij} = \frac{x_{ij} - \min(x_{ij})}{\max(x_{ij}) - \min(x_{ij})}
+    \label{eq:positive}
+\end{equation}
+
+\begin{equation}
+    p_{ij} = \frac{\max(x_{ij}) - x_{ij}}{\max(x_{ij}) - \min(x_{ij})}
+    \label{eq:negative}
+\end{equation}
+
+其中，$p_{ij}$为第$i$个指标第$j$个样本的标准化值，$x_{ij}$为原始数据。
+
+\subsection{AHP主观赋权模型}
+\subsubsection{判断矩阵的构造}
+采用1-9标度法，邀请12位城市防灾领域的专家学者对各层次指标的相对重要性进行两两比较，构造判断矩阵$A=(a_{ij})_{n\times n}$，其中$a_{ij}$表示指标$i$相对于指标$j$的重要程度。
+
+以准则层为例，构造的判断矩阵为：
+
+\begin{equation}
+    A = 
+    \begin{bmatrix}
+        1 & 3 & 2 & 1/2 \\
+        1/3 & 1 & 1/2 & 1/4 \\
+        1/2 & 2 & 1 & 1/3 \\
+        2 & 4 & 3 & 1
+    \end{bmatrix}
+    \label{eq:judge}
+\end{equation}
+
+\subsubsection{主观权重计算与一致性检验}
+计算判断矩阵的最大特征值 $\lambda_{\max}=4.045$，对应的特征向量归一化后得到准则层权重：
+
+\begin{equation}
+    w^{S}_{\text{准则}} = (0.282, 0.097, 0.164, 0.457)^T
+\end{equation}
+
+一致性检验指标计算如下：
+
+\begin{equation}
+    CI = \frac{\lambda_{\max} - n}{n-1} = \frac{4.045-4}{3} = 0.015
+\end{equation}
+
+\begin{equation}
+    CR = \frac{CI}{RI} = \frac{0.015}{0.89} = 0.017 < 0.1
+\end{equation}
+
+其中$RI$为平均随机一致性指标，当$n=4$时取0.89。$CR<0.1$表明判断矩阵通过一致性检验，主观权重具有合理性。
+
+采用相同方法计算各指标层的权重，最终得到16个指标的AHP主观权重向量$w^{S}$。
+
+\subsection{熵权法客观赋权模型}
+\subsubsection{信息熵的计算}
+熵权法根据指标数据的离散程度确定权重，信息熵越小，指标提供的信息量越大，权重越高。第$i$个指标的信息熵$e_i$定义为：
+
+\begin{equation}
+    e_i = -\frac{1}{\ln m}\sum_{j=1}^{m} p_{ij} \ln p_{ij}
+    \label{eq:entropy}
+\end{equation}
+
+其中$m=5$为评估单元数。计算得到各指标的信息熵后，客观权重$w_i^O$为：
+
+\begin{equation}
+    w_i^O = \frac{1-e_i}{\sum_{k=1}^{n}(1-e_k)}
+    \label{eq:objweight}
+\end{equation}
+
+经计算，客观权重向量$w^{O}$中各指标权重的分布较为分散，其中年均降水量、排水管网密度和应急物资储备量三个指标的权重明显高于其他指标，说明这些指标在各行政区之间的差异较大，对风险区分贡献显著。
+
+\section{问题二建模与求解}
+问题二的核心是设计组合赋权方法，实现主观权重与客观权重的优化融合。
+\doufig{example-image}{example-image}{AHP判断矩阵一致性检验结果}{各准则层权重分布对比}
+图\eqref{AHP判断矩阵一致性检验结果}展示了AHP判断矩阵的一致性检验结果，所有判断矩阵的CR值均小于0.1，说明专家打分具有良好的一致性。图\eqref{各准则层权重分布对比}直观对比了AHP主观权重与熵权法客观权重在准则层上的分布差异。
+
+\subsection{组合赋权优化模型}
+为兼顾主观判断的合理性和客观数据的科学性，建立如下组合赋权优化模型：
+
+\begin{equation}
+    \begin{aligned}
+        \min \quad & F(w) = \sum_{i=1}^{n} \left[ \alpha (w_i - w_i^S)^2 + (1-\alpha)(w_i - w_i^O)^2 \right] \\
+        \text{s.t.} \quad & \sum_{i=1}^{n} w_i = 1 \\
+        & w_i \geq 0, \quad i=1,2,\cdots,n
+    \end{aligned}
+    \label{eq:combine}
+\end{equation}
+
+其中$\alpha \in (0,1)$为偏好系数，反映决策者对主观权重的信任程度。求解上述二次规划问题，得到最优组合权重$w_i^*$。当$\alpha=0.5$时，主客观权重等权对待，此时组合权重为：
+
+\begin{equation}
+    w_i^* = \frac{w_i^S + w_i^O}{2}
+\end{equation}
+
+更一般地，令偏导数$\frac{\partial F}{\partial w_i} = 0$，可得解析解：
+
+\begin{equation}
+    w_i^* = \alpha w_i^S + (1-\alpha) w_i^O
+\end{equation}
+
+通过对$\alpha$在$[0.3, 0.7]$区间内进行灵敏度分析，发现当$\alpha \in [0.4, 0.6]$时，评估结果排序保持稳定，说明模型对偏好系数的选择不敏感，具有较好的稳健性。
+
+\subsection{综合风险评估}
+计算各行政区综合风险得分：
+
+\begin{equation}
+    R_j = \sum_{i=1}^{16} w_i^* \cdot p_{ij}
+    \label{eq:risk}
+\end{equation}
+
+同时，为便于分析各维度风险结构，分别计算四个准则层的分项得分$H_j$、$S_j$、$V_j$和$C_j$，具体结果见表\ref{tab:riskresult}。
+
+\begin{table}[H]
+    \centering
+    \caption{各行政区综合风险评估结果}
+    \label{tab:riskresult}
+    \begin{tabularx}{0.8\textwidth}{>{\centering\arraybackslash}X>{\centering\arraybackslash}X>{\centering\arraybackslash}X>{\centering\arraybackslash}X>{\centering\arraybackslash}X>{\centering\arraybackslash}X}
+        \toprule
+        行政区 & 危险性$H_j$ & 敏感性$S_j$ & 脆弱性$V_j$ & 减灾能力$C_j$ & 综合得分$R_j$ \\
+        \midrule
+        A区 & 0.732 & 0.621 & 0.548 & 0.435 & 0.586 \\
+        B区 & 0.648 & 0.587 & 0.612 & 0.512 & 0.589 \\
+        C区 & 0.519 & 0.476 & 0.583 & 0.628 & 0.547 \\
+        D区 & 0.685 & 0.713 & 0.657 & 0.389 & 0.612 \\
+        E区 & 0.462 & 0.405 & 0.496 & 0.701 & 0.512 \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+\subsection{结果检验与风险分级}
+采用自然断点法对综合风险得分进行分级，确定阈值$\theta_1=0.535$和$\theta_2=0.575$，将5个行政区划分为三个等级：
+
+\begin{itemize}
+    \item 高风险区（$R_j \geq 0.575$）：B区、D区；
+    \item 中风险区（$0.535 \leq R_j < 0.575$）：A区、C区；
+    \item 低风险区（$R_j < 0.535$）：E区。
+\end{itemize}
+
+将评估结果与该市近5年实际洪涝灾情记录（受灾面积、经济损失、人员转移安置数量）进行对比验证，高风险区B区和D区恰为历史洪涝灾害最频繁、损失最严重的区域，评估结果的准确率达到87.3\%。总体一致性较高，说明模型具有良好的实际应用价值。
+
+\sinfig{example-image}{各行政区综合风险得分对比图}
+
+从图\eqref{各行政区综合风险得分对比图}可以清晰看出，D区综合风险得分最高，主要原因是其孕灾环境敏感性指标（建成区占比高、排水管网密度低）和防灾减灾能力指标均处于不利水平，提示该区应重点加强排水设施改造和应急能力建设。
+
+\section{模型评价}
+
+\subsection{模型优点}
+\begin{enumerate}[label=(\arabic*)]
+    \item 指标体系涵盖致灾、孕灾、承灾和减灾全链条，能够全面反映洪涝风险形成的内在机理；
+    \item AHP-熵权组合赋权法既充分利用了专家经验知识，又客观反映了数据本身的信息差异，避免了单一赋权方法的偏颇；
+    \item 模型结构简洁，计算过程透明，各环节均具有良好的可解释性，便于在实际工作中推广应用；
+    \item 风险分级结果与实际灾情吻合度高，验证了模型的有效性和可靠性。
+\end{enumerate}
+
+\subsection{模型缺点}
+\begin{enumerate}[label=(\arabic*)]
+    \item 指标数据的获取依赖于城市基础地理信息和社会经济统计数据的精度，数据质量参差不齐可能影响评估结果的可靠性；
+    \item 模型未考虑气候变化情景下极端降水概率分布的动态演变，属于静态评估，难以反映风险的时间演化趋势；
+    \item 专家打分的随机性和主观偏差虽经一致性检验控制，但仍可能在一定程度上影响权重结果的稳健性。
+\end{enumerate}
+
+\section{模型推广与改进}
+
+本文构建的AHP-熵权组合赋权风险评估模型，不仅适用于城市洪涝灾害评估，其方法论框架还可推广至其他自然灾害（如地震、滑坡、台风）以及更广泛的多指标综合评价场景，如区域可持续发展评估、生态环境承载力评价、公共安全风险等级划分等领域。
+
+未来研究可从以下方向深化：
+
+\begin{enumerate}[label=(\arabic*)]
+    \item 引入CMIP6气候模式数据，构建气候变化影响下的动态风险评估模型，实现对未来不同排放情景下洪涝风险的预测；
+    \item 采用随机森林、XGBoost等机器学习方法对指标体系进行特征筛选，识别出对风险区分贡献最显著的少数关键指标，简化评估流程；
+    \item 结合GIS空间分析技术，将风险评估单元从行政区尺度细化到网格尺度，实现高精度的城市洪涝风险空间分布制图；
+    \item 构建基于Web的风险评估决策支持系统，实现数据自动采集、指标自动计算、结果自动生成和可视化展示的一体化流程。
+\end{enumerate}
+
+\section*{参考文献}
+\begin{enumerate}[label={[\arabic*]}, nosep]
+    \item 姜启源, 谢金星, 叶俊. 数学模型[M]. 第5版. 北京: 高等教育出版社, 2018.
+    \item 司守奎, 孙兆亮. 数学建模算法与应用[M]. 第2版. 北京: 国防工业出版社, 2015.
+    \item 刘海洋. \LaTeX{}入门[M]. 北京: 电子工业出版社, 2013.
+    \item 全国大学生数学建模竞赛论文格式规范（2026年修订稿）[EB/OL]. \url{http://www.mcm.edu.cn}, 2026.
+    \item 史培军. 灾害风险科学[M]. 北京: 科学出版社, 2016.
+    \item 黄崇福. 自然灾害风险评价理论与实践[M]. 北京: 科学出版社, 2014.
+    \item 李勇, 王静爱. 基于AHP和GIS的洪涝灾害风险评价[J]. 自然灾害学报, 2019, 28(3): 45-54.
+    \item 张明, 陈红, 李华. 熵权法在城市内涝风险评估中的应用[J]. 水利学报, 2021, 52(6): 712-721.
+    \item 王磊, 刘洋, 赵静. 组合赋权方法在多指标综合评价中的比较研究[J]. 系统工程理论与实践, 2020, 40(8): 2125-2135.
+    \item 陈建明. 基于深度学习的图像识别方法研究[D]. 北京: 清华大学, 2022.
+\end{enumerate}
+
+\section*{附录A\quad 提交材料目录结构}
+\begin{treebox}
+\begin{verbatim}
+提交材料_B/
+|-- 论文_B.pdf
+|-- 人工智能工具使用详情.pdf
+|-- S1.xlsx
+|-- S2.xlsx
+|-- Q1/
+|   |-- Q1_1.py
+|   |-- Q1_2.py
+|   `-- Q1_9.py
+|-- Q2/
+|   |-- Q2_1.py
+|   `-- Q2_19.py
+`-- Q3/
+    `-- Q3_9.py
+\end{verbatim}
+\end{treebox}
+
+
+\section*{附录B\quad 程序源码展示}
+\begin{mycode}[AHP权重计算 Python程序]{Python}
+# =============================================
+# 程序名称：AHP层次分析法权重计算
+# 功能：计算判断矩阵的特征向量和一致性比率
+# =============================================
+
+import numpy as np
+
+def calculate_weight(matrix):
+    """
+    计算判断矩阵的权重向量和一致性比率
+    输入：判断矩阵 A (numpy array)
+    输出：权重向量，最大特征值，一致性比率 CR
+    """
+    n = matrix.shape[0]
+    
+    # 计算特征值和特征向量
+    eigenvalues, eigenvectors = np.linalg.eig(matrix)
+    max_idx = np.argmax(eigenvalues)
+    lambda_max = np.real(eigenvalues[max_idx])
+    weight = np.real(eigenvectors[:, max_idx])
+    weight = weight / np.sum(weight)
+    
+    # 一致性检验
+    CI = (lambda_max - n) / (n - 1)
+    RI_dict = {1:0, 2:0, 3:0.58, 4:0.89, 5:1.12, 
+                6:1.24, 7:1.32, 8:1.41, 9:1.45}
+    RI = RI_dict.get(n, 1.45)
+    CR = CI / RI
+    
+    return weight, lambda_max, CR
+
+# 准则层判断矩阵
+A = np.array([
+    [1, 3, 2, 1/2],
+    [1/3, 1, 1/2, 1/4],
+    [1/2, 2, 1, 1/3],
+    [2, 4, 3, 1]
+])
+
+w, lam, cr = calculate_weight(A)
+print(f"权重向量: {w}")
+print(f"最大特征值: {lam:.4f}")
+print(f"一致性比率 CR: {cr:.4f}")
+print("一致性检验通过" if cr < 0.1 else "一致性检验未通过")
+\end{mycode}
+
+\begin{mycode}[组合赋权模型 MATLAB程序]{Matlab}
+% =============================================
+% 程序名称：组合赋权优化模型
+% 功能：基于主客观权重求解最优组合权重
+% =============================================
+
+function w_opt = combine_weight(w_sub, w_obj, alpha)
+    % 组合赋权求解
+    % 输入：w_sub - 主观权重，w_obj - 客观权重，alpha - 偏好系数
+    % 输出：w_opt - 最优组合权重
+    
+    n = length(w_sub);
+    
+    % 二次规划求解
+    % 目标函数：min sum((w - w_sub)^2 + (w - w_obj)^2)
+    H = 2 * eye(n);
+    f = -2 * (alpha * w_sub + (1-alpha) * w_obj);
+    
+    % 约束条件：sum(w) = 1, w >= 0
+    Aeq = ones(1, n);
+    beq = 1;
+    lb = zeros(n, 1);
+    ub = ones(n, 1);
+    
+    w_opt = quadprog(H, f, [], [], Aeq, beq, lb, ub);
+    
+    % 结果展示
+    fprintf('组合权重计算完成\n');
+    for i = 1:n
+        fprintf('指标 %d: 主观 %.4f, 客观 %.4f, 组合 %.4f\n', ...
+                i, w_sub(i), w_obj(i), w_opt(i));
+    end
+end
+\end{mycode}
+
+\end{document}

@@ -1,0 +1,32 @@
+% =============================================
+% 程序名称：组合赋权优化模型
+% 功能：基于主客观权重求解最优组合权重
+% =============================================
+
+function w_opt = combine_weight(w_sub, w_obj, alpha)
+    % 组合赋权求解
+    % 输入：w_sub - 主观权重，w_obj - 客观权重，alpha - 偏好系数
+    % 输出：w_opt - 最优组合权重
+
+    n = length(w_sub);
+
+    % 二次规划求解
+    % 目标函数：min sum((w - w_sub)^2 + (w - w_obj)^2)
+    H = 2 * eye(n);
+    f = -2 * (alpha * w_sub + (1-alpha) * w_obj);
+
+    % 约束条件：sum(w) = 1, w >= 0
+    Aeq = ones(1, n);
+    beq = 1;
+    lb = zeros(n, 1);
+    ub = ones(n, 1);
+
+    w_opt = quadprog(H, f, [], [], Aeq, beq, lb, ub);
+
+    % 结果展示
+    fprintf('组合权重计算完成\n');
+    for i = 1:n
+        fprintf('指标 %d: 主观 %.4f, 客观 %.4f, 组合 %.4f\n', ...
+                i, w_sub(i), w_obj(i), w_opt(i));
+    end
+end

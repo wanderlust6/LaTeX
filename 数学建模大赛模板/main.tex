@@ -12,6 +12,7 @@
 \usepackage{caption}% 自定义图表标题格式
 \usepackage{enumitem}%enumerate, itemize
 \usepackage{xcolor}
+\usepackage{verbatim}
 \usepackage{listings}%插入代码块
 \usepackage{tcolorbox}%
 \usepackage[hidelinks]{hyperref}
@@ -19,7 +20,7 @@
 %宋体与伪加粗
 \setCJKmainfont{SimSun}[AutoFakeBold=true]
 \setCJKfamilyfont{songti}{SimSun}[AutoFakeBold=true]
-
+\xeCJKsetup{CJKecglue = {\hskip 0.08em plus 0.02em minus 0.02em}}  % 中英间距调小
 %间距控制
 \setlength{\abovedisplayskip}{6pt plus 2pt minus 2pt}%公式上方的间距
 \setlength{\belowdisplayskip}{6pt plus 2pt minus 2pt}%公式下方的间距
@@ -28,7 +29,7 @@
 \setlength{\intextsep}{6pt plus 2pt minus 2pt}%浮动体（图表）与周围文字的距离
 \setlength{\floatsep}{6pt plus 2pt minus 2pt}%浮动体之间的距离
 \setlength{\textfloatsep}{6pt plus 2pt minus 2pt}%浮动体与页面顶部/底部的距离
-\setlength{\arrayrulewidth}{1.0pt}%所有表格的线宽
+\setlength{\arrayrulewidth}{1.0pt}%普通表格的线宽
 \setlength{\LTpre}{0pt}
 \setlength{\LTpost}{0pt}%longtable 上下方的间距不额外增加
 \setlength{\heavyrulewidth}{1.2pt}     % \toprule（顶线）和 \bottomrule（底线）的宽度
@@ -48,7 +49,7 @@
   {\zihao{-4}\CJKfamily{rm}\bfseries}
   {\thesubsubsection}{5pt}{}
 \titlespacing*{\section}{0pt}{4ex plus .2ex}{4ex plus .2ex}%标题与正文的间距
-\titlespacing*{\subsection}{0pt}{2ex plus .2ex}{2ex plus .2ex}%小标题与正文的间距
+\titlespacing*{\subsection}{0pt}{1ex plus .2ex}{1ex plus .2ex}%小标题与正文的间距
 
 %列表设置
 \setlist[enumerate]{
@@ -91,6 +92,22 @@
         \end{minipage}
     \end{figure}
 }
+
+\newtcolorbox{treebox}{
+    enhanced,
+    breakable,
+    colback=gray!5,
+    colframe=black,
+    boxrule=1pt,
+    arc=0pt,
+    left=4mm,
+    right=4mm,
+    top=3mm,
+    bottom=3mm,
+    before skip=0.8cm,
+    after skip=0.8cm,
+}
+
 % 定义代码框中代码样式
 \tcbuselibrary{listings, skins, breakable}
 \lstdefinestyle{mylistings}{
@@ -99,16 +116,14 @@
     commentstyle = \color[RGB]{0,128,0},
     stringstyle = \color[RGB]{163,21,21},
     showstringspaces = false,
-    % ---------- 新增：行号 ----------
     numbers = left,                 % 行号显示在左侧
     numberstyle = \small\color{gray},% 行号字体：极小号灰色
     stepnumber = 1,                 % 每行都标号
     numbersep = 8pt,                % 行号与代码的间距
-    % ---------- 新增：自动换行 ----------
     breaklines = true,              % 自动换行
     breakatwhitespace = false,      % 不在空格处换行（让换行更紧凑）
     breakindent = 0pt,              % 换行后不额外缩进
-    postbreak = \space,             % 换行后加一个空格（VSCode 风格）
+    postbreak = \space,             % 换行后加一个空格
 }
 
 % 定义一个代码框样式
@@ -116,7 +131,8 @@
     listing only,%只显示代码
     listing options={language=#2, basicstyle=\fontspec{Consolas}\small , style=mylistings, },%引用上面的样式
     colback=gray!5,%代码区背景 5%的灰色
-    boxrule=1pt,%边框宽度，颜色默认黑色，没有圆角
+    boxrule=1pt,%边框宽度，颜色默认黑色
+    arc=0pt,%没有圆角
     left=0.7cm,%得为行号留出空间
     right=0.25cm,
     top=0.1cm,
@@ -201,13 +217,27 @@
     $f(x)$ & 目标函数 & 无单位 \\
 \end{longtable}
 \noindent 注:未声明的变量以其在符号出现处的具体说明为准。
-\section{模型的建立和求解}
+\section{问题一建模和求解}
+问题一针对一个具体的场景
 \subsection{建模前的准备}
 \subsubsection{实际问题的数学化处理}
-
+设函数
+\begin{equation}
+    f(x)=\begin{cases}
+    x\sin \frac{1}{x} &x\neq 0\,,\\
+    0 &x=0 \,.
+    \end{cases}
+\end{equation}
+由于 $\displaystyle\lim_{x\to 0}x\sin \frac{1}{x}=0=f(0)$，故$f$在$x=0$处连续，但连续不一定可导，下面证明$f$在$x=0$处不可导，
+    
+由于
+\begin{equation}
+    \lim_{\Delta x\to 0}\frac{f(0+\Delta x)-f(0)}{\Delta x}=lim_{\Delta x\to 0}\sin\frac{1}{\Delta x}\,.
+\end{equation}
+此极限不存在，故$f^\prime(0)$ 不存在，即$f$在$x=0$处不可导。
 \subsubsection{数据的预处理与分析}
-\subsection{问题一的建立与求解}
-\subsubsection{...方程的建立}
+\subsection{...模型}
+\subsubsection{方程}
 
 根据XX定律，我们可以建立如下方程：
 
@@ -215,21 +245,29 @@
     E = mc^2
     \label{eq:energy}
 \end{equation}
-
 其中，$E$ 表示能量，$m$ 表示质量，$c$ 表示光速。
-\subsubsection{问题一模型求解}
-本文采用XX算法对上述模型进行求解，算法流程如下：
+\subsubsection{约束条件}
 
+
+\subsubsection{目标函数}
+
+
+\subsection{模型的求解}
+本文采用XX算法对上述模型进行求解，算法流程如下：
 \begin{enumerate}[label=步骤\arabic*:]
     \item 初始化参数；
     \item 迭代更新变量；
     \item 检查收敛条件；
     \item 输出最优解。
 \end{enumerate}
-\subsection{问题二的建立与求解}
+
+\subsection{结果检验与误差分析}
+
+
+\section{问题二建模与求解}
 \doufig{example-image}{example-image}{左侧图片标签}{右侧图片标签}
 从图\eqref{左侧图片标签}和图\eqref{右侧图片标签}可以看出，模型对参数 $a$ 的变化较为敏感，对参数 $b$ 的变化不敏感。
-\subsubsection{问题二模型建立}
+\subsection{问题二模型建立}
 在模型一的基础上，引入优化变量 $x$，得到如下优化问题：
 
 \begin{equation}
@@ -239,14 +277,13 @@
     \end{aligned}
     \label{eq:optimization}
 \end{equation}
-\subsubsection{问题二模型求解}
-\section{结果检验与误差分析}
 
-\subsection{问题一结果检验}
+\subsection{问题二模型求解}
 
 
+\subsection{结果检验}
 
-\subsection{问题二结果检验}
+
 \subsection{对...的分析}
 对关键参数进行灵敏度分析，结果如图\eqref{灵敏度分析结果}所示。
 
@@ -256,14 +293,14 @@
 
 \section{模型评价}
 
-\noindent\textbf{模型优点}
+\subsection{模型优点}
 \begin{enumerate}[label=(\arabic*)]
     \item 模型结构清晰，易于理解和实现；
     \item 算法收敛速度快，计算效率高；
     \item 结果具有较高的精度和鲁棒性。
 \end{enumerate}
 
-\noindent\textbf{模型缺点}
+\subsection{模型缺点}
 \begin{enumerate}[label=(\arabic*)]
     \item 对数据质量要求较高；
     \item 在大规模问题上的计算效率有待提升。
@@ -287,7 +324,7 @@
     \centering
     \caption{符号说明表}
     \label{符号说明表}
-    \begin{tabularx}{0.8\textwidth}{|>{\centering\arraybackslash}X|c|>{\centering\arraybackslash}X|}
+    \begin{tabularx}{0.7\textwidth}{|>{\centering\arraybackslash}X|c|>{\centering\arraybackslash}X|}
         \hline
         符号 & 含义 & 单位 \\
         \hline
@@ -321,30 +358,26 @@
     \item 赵刚. 复杂网络中的社区发现算法研究[D]. 上海: 上海交通大学, 2021.
 \end{enumerate}
 
-\section*{附录A\quad 文件列表}
-\begin{longtable}{>{\centering\arraybackslash}p{0.4\textwidth}>{\centering\arraybackslash}p{0.6\textwidth}}
-    \toprule
-    文件名 & 功能描述 \\
-    \midrule
-    \endfirsthead
-    % ---------- 后页的表头 ----------
-    \multicolumn{2}{c}{（续上表）} \\
-    \toprule
-    文件名 & 功能描述 \\
-    \midrule
-    \endhead
-    % ---------- 前页的表脚 ----------
-    \bottomrule
-    \multicolumn{2}{r}{续表见下页} \\
-    \endfoot
-    % ---------- 最后一页的表脚 ----------
-    \bottomrule
-    \endlastfoot
-    main.tex & LaTeX 主文件 \\
-    fibonacci.m & 斐波那契数列计算函数 \\
-    main.m & MATLAB主程序 \\
-\end{longtable}
-\section*{附录B\quad 程序源码}
+\section*{附录A\quad 提交材料目录结构}
+\begin{treebox}
+\begin{verbatim}
+提交材料_B/
+|-- 论文_B.pdf
+|-- 人工智能工具使用详情.pdf
+|-- S1.xlsx
+|-- S2.xlsx
+|-- Q1/
+|   |-- Q1_1.py
+|   |-- Q1_2.py
+|   `-- Q1_9.py
+|-- Q2/
+|   |-- Q2_1.py
+|   `-- Q2_19.py
+`-- Q3/
+    `-- Q3_9.py
+\end{verbatim}
+\end{treebox}
+\section*{附录B\quad 程序源码展示}
 \begin{mycode}[MATLAB 主程序]{Matlab}
 % =============================================
 % 程序名称：斐波那契数列计算与绘图
@@ -399,6 +432,7 @@ function fib_seq = fibonacci(n)
     end
 end
 \end{mycode}
+
 \begin{mycode}[MATLAB 主程序]{Matlab}
 % =============================================
 % 程序名称：斐波那契数列计算与绘图
